@@ -41,8 +41,8 @@ test('generated preview content keeps 74 real memes and both 136-tile decks', ()
   }
 });
 
-test('browser click loops the meme atlas and switching cards keeps one active atlas', () => {
-  const h = previewHarness();
+test('browser clicked memes keep independent looping atlases when another card is clicked', () => {
+  const h = previewHarness({seed: 47});
   h.handlers.pointerdown({clientX: 302, clientY: 304});
   h.flush();
   assert.ok(h.labels.includes('已选表情 1 / 12'), 'clicking a card still selects the meme');
@@ -60,11 +60,11 @@ test('browser click loops the meme atlas and switching cards keeps one active at
   const first = h.draws.filter(args => args.length === 9).at(-1);
   assert.ok(first, 'the selected card draws a cropped animation frame');
   h.advance(Math.max(20, meta.frame_ms) + 1); // Cross the frame boundary despite float rounding.
-  h.fire(Math.min(50, Math.max(20, meta.frame_ms / 2)));
+  h.fire(20);
   const next = h.draws.filter(args => args.length === 9).at(-1);
   assert.notDeepEqual(next.slice(1, 3), first.slice(1, 3), 'the loop advances to another source frame');
   // Ranking depends on randomly dealt tiles; another fixed cell can be a still image.
-  // Click until a DIFFERENT animated card actually becomes active before switching back.
+  // Click until a DIFFERENT animated card actually starts, keeping the first running.
   let switched = false;
   for (let i = 0; i < 6 && !switched; i++) {
     const other = [302 + (i % 3) * 337, 304 + Math.floor(i / 3) * 180];
@@ -74,10 +74,26 @@ test('browser click loops the meme atlas and switching cards keeps one active at
     const latest = h.images.filter(image => image.path.includes('/animations/')).at(-1);
     switched = latest && latest.path !== animated.path;
   }
-  assert.ok(switched, 'a distinct animated card becomes active');
+  assert.ok(switched, 'a distinct animated card starts');
+  const second = h.images.filter(image => image.path.includes('/animations/')).at(-1);
+  const secondMeta = h.sandbox.__WORD_TILES_CONTENT__.memes.find(meme => meme.animation && meme.animation.path === second.path).animation;
+  second.finish(secondMeta.columns * secondMeta.frame_width, Math.ceil(secondMeta.frames / secondMeta.columns) * secondMeta.frame_height);
+  h.flush();
+  const firstBefore = h.draws.filter(args => args.length === 9 && args[0] === animated).at(-1);
+  const secondBefore = h.draws.filter(args => args.length === 9 && args[0] === second).at(-1);
+  assert.ok(firstBefore && secondBefore, 'both atlases are drawn together');
+  h.draws.length = 0;
+  h.advance(Math.max(meta.frame_ms, secondMeta.frame_ms, 20) + 1);
+  h.fire(20);
+  const firstAfter = h.draws.filter(args => args.length === 9 && args[0] === animated).at(-1);
+  const secondAfter = h.draws.filter(args => args.length === 9 && args[0] === second).at(-1);
+  assert.ok(firstAfter && secondAfter, 'both are still drawn after a timer tick');
+  assert.notDeepEqual(firstAfter.slice(1, 3), firstBefore.slice(1, 3));
+  assert.notDeepEqual(secondAfter.slice(1, 3), secondBefore.slice(1, 3));
+  assert.equal([...h.timers.values()].filter(timer => timer.interval && timer.delay === 20).length, 1, 'all cards share one ticker');
   h.handlers.pointerdown({clientX: cell[0], clientY: cell[1]});
   h.flush();
-  assert.equal(h.images.filter(image => image.path === animated.path).length, 2, 'switching cards reloads exactly one active atlas');
+  assert.equal(h.images.filter(image => image.path === animated.path).length, 1, 'clicking the first card again retains its atlas');
 });
 
 test('WeChat tapping a meme starts a looping atlas and still selects it', () => {
@@ -98,7 +114,7 @@ test('WeChat tapping a meme starts a looping atlas and still selects it', () => 
   const first = h.draws.filter(args => args.length === 9).at(-1);
   assert.ok(first, 'the tapped card plays an animation frame');
   h.advance(Math.max(20, meta.frame_ms) + 1);
-  h.fire(Math.min(50, Math.max(20, meta.frame_ms / 2)));
+  h.fire(20);
   const next = h.draws.filter(args => args.length === 9).at(-1);
   assert.notDeepEqual(next.slice(1, 3), first.slice(1, 3), 'the loop keeps advancing after the finger lifts');
   assert.ok(h.labels.some(text => text.startsWith('已选表情 ')), 'the tap still toggles selection');

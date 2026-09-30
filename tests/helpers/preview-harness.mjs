@@ -2,7 +2,7 @@ import {readFileSync} from 'node:fs';
 import {resolve} from 'node:path';
 import vm from 'node:vm';
 
-export function previewHarness({native = false, phone = false, sourcePath, sourceDirectory, search = '?frame=compose'} = {}) {
+export function previewHarness({native = false, phone = false, sourcePath, sourceDirectory, search = '?frame=compose', seed} = {}) {
   const root = sourceDirectory || resolve(import.meta.dirname, '../../apps', phone ? 'wechat-phone-preview' : 'wechat-preview');
   const handlers = {}, images = [], packages = [], timers = new Map(), rafs = new Map(), draws = [], labels = [];
   let serial = 0, now = 1000, transforms = 0, rankCalls = 0;
@@ -27,10 +27,12 @@ export function previewHarness({native = false, phone = false, sourcePath, sourc
     window: {innerWidth: 1280, innerHeight: 720, devicePixelRatio: 1,
       location: {search}, addEventListener: (name, fn) => { handlers[name] = fn; }}
   };
+  if (seed !== undefined) sandbox.crypto = {getRandomValues: values => { values[0] = seed; return values; }};
   if (native) sandbox.wx = {
     createCanvas: () => canvas, createImage: () => new MockImage(),
     getWindowInfo: () => ({windowWidth: 1280, windowHeight: 720, pixelRatio: 1}),
     onTouchStart: fn => { handlers.touch = fn; }, onTouchEnd: fn => { handlers.end = fn; },
+    onTouchMove: fn => { handlers.move = fn; },
     onHide: fn => { handlers.hide = fn; }, onShow: fn => { handlers.show = fn; },
     onMemoryWarning: fn => { handlers.memory = fn; },
     loadSubpackage: args => { packages.push(args); },

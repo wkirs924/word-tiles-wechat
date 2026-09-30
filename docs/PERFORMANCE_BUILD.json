@@ -1,14 +1,14 @@
 {
-  "main_bytes": 1927554,
-  "total_bytes": 18299553,
+  "main_bytes": 1927376,
+  "total_bytes": 18299370,
   "main_budget": 3800000,
   "total_budget": 19000000,
   "subpackage_bytes": {
-    "animations-01": 3383037,
-    "animations-02": 3281105,
-    "animations-03": 3374609,
-    "animations-04": 3290776,
-    "animations-05": 3042472
+    "animations-01": 3383036,
+    "animations-02": 3281104,
+    "animations-03": 3374608,
+    "animations-04": 3290775,
+    "animations-05": 3042471
   },
   "animation_count": 59,
   "max_frame_edge": 288,

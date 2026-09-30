@@ -9,7 +9,7 @@
   var MAX_FILE = 2 * 1024 * 1024, MAX_BYTES = 20 * 1024 * 1024, MAX_ITEMS = 50;
   var fs = isWx ? wx.getFileSystemManager() : null;
   var base = isWx ? wx.env.USER_DATA_PATH + '/word-tiles-memes-v1' : '';
-  var own = {}, room = {}, posters = {}, active = null, dbPromise = null, listeners = [], generation = 0;
+  var own = {}, room = {}, posters = {}, animated = {}, dbPromise = null, listeners = [], generation = 0;
   var ioQueue = Promise.resolve();
   function changed() { listeners.forEach(function (fn) { fn(); }); }
   function error(message) { throw new Error(message); }
@@ -280,23 +280,27 @@
   function descriptor(meta) { return Object.assign(wire(meta), {path: 'custom://' + meta.key, kind: 'meme', usage: meta.format === 'gif' ? '自定义动图' : '自定义表情', personal: !!own[meta.key]}); }
   function list() { var combined = Object.assign({}, room, own); return Object.keys(combined).map(function (k) { return descriptor(combined[k]); }); }
   function image(key, animate) {
-    var slot = animate ? active && active.key === key ? active : (active = {key: key, state: null}) : posters[key];
+    var cache = animate ? animated : posters, slot = cache[key];
     if (!slot) {
-      var names = Object.keys(posters); if (names.length >= 16) { delete posters[names[0]]; }
-      slot = posters[key] = {key: key, state: null};
+      if (!animate) { var names = Object.keys(posters); if (names.length >= 16) delete posters[names[0]]; }
+      slot = cache[key] = {key: key, state: null};
     }
     if (slot.state === null) {
       slot.state = 'loading'; var meta = entry(key), token = generation;
+      function live() { return token === generation && (animate ? animated : posters)[key] === slot; }
       read(key).then(function (bytes) {
+        if (!live()) return null;
         if (!meta) error('表情不存在');
-        return meta.format === 'gif' ? codec.decode(bytes, !animate).then(surface) : nativeImage(bytes, meta, meta.file);
-      }).then(function (result) { if (token !== generation) return; slot.value = result; slot.state = 'ready'; changed(); })
-        .catch(function (e) { slot.state = 'failed'; slot.error = e.message; changed(); });
+        return meta.format === 'gif' ? codec.decode(bytes, !animate).then(function (decoded) {
+          return live() ? surface(decoded) : null;
+        }) : nativeImage(bytes, meta, meta.file);
+      }).then(function (result) { if (!live()) return; slot.value = result; slot.state = 'ready'; changed(); })
+        .catch(function (e) { if (!live()) return; slot.state = 'failed'; slot.error = e.message; changed(); });
     }
     return slot;
   }
   function clearRoom() {
-    generation++; active = null; posters = {}; var old = room; room = {}; changed();
+    generation++; animated = {}; posters = {}; var old = room; room = {}; changed();
     return serial(function () {
       if (isWx) return Promise.all(Object.keys(old).map(function (key) { return fsCall('unlink', {filePath: old[key].file}).catch(function () {}); }));
       return dbOp('readwrite', function (store) { Object.keys(old).forEach(function (key) { if (!own[key]) store.delete(key); }); });
@@ -312,7 +316,7 @@
         return dbOp('readwrite', function (store) { if (room[key] && record) { record.personal = false; return store.put(record); } return store.delete(key); });
       }))
         .then(function () {
-          delete own[key]; delete posters[key];
+          delete own[key]; delete posters[key]; if (!room[key]) delete animated[key];
         }).then(changed);
     });
   }
@@ -322,6 +326,7 @@
       return initialise().then(function () { if (token !== generation) error('房间已退出'); return save(bytes, meta, false); });
     },
     preview: function (selected) { return selected.info.format === 'gif' ? codec.decode(selected.bytes, false).then(surface) : nativeImage(selected.bytes, selected.info, selected.path); },
-    clearRoom: clearRoom, release: function (all) { active = null; if (all !== false) posters = {}; }, image: image,
+    clearRoom: clearRoom, release: function (all) { animated = {}; if (all !== false) posters = {}; },
+    releaseImage: function (key, animate) { delete (animate ? animated : posters)[key]; }, image: image,
     encode: encode, decode: decode, digest: digest, remove: remove, onChange: function (fn) { listeners.push(fn); }, limits: {file: MAX_FILE, bytes: MAX_BYTES, room: 24}};
 });

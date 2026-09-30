@@ -56,7 +56,7 @@
   };
 
   var scale = 1, offsetX = 0, offsetY = 0, pixelRatio = 1, hits = [];
-  var activeAnimation = '', pausedAnimation = '', animationStarted = 0, animationTimer = null;
+  var playingAnimations = {}, pausedAnimations = [], animationScreen = 'menu', animationTimer = null;
   var touchPreviewHit = null, touchCopyHit = null, touchStartX = 0, touchStartY = 0, panelDragY = null;
   var diceRollTimer = null, diceSettleTimer = null, diceHandoffTimer = null, diceIntroToken = 0;
   var clipboardSerial = 0, lastWxClipboardAt = 0;
@@ -64,7 +64,7 @@
 
   var imageBudget = 24 * 1024 * 1024, imageBytes = 0, imageSerial = 0, paintGeneration = 0;
   var images = {}, packages = {}, appHidden = false, drawing = false, dirty = false, scheduledFrame = null;
-  var frameView, windowInfo = null, lastAnimationFrame = -1;
+  var frameView, windowInfo = null;
   var requestFrame = typeof requestAnimationFrame === 'function' ? requestAnimationFrame :
     (!inWeChat && typeof window.requestAnimationFrame === 'function' ? window.requestAnimationFrame.bind(window) : null);
   var cancelFrame = typeof cancelAnimationFrame === 'function' ? cancelAnimationFrame :
@@ -106,31 +106,51 @@
     }, fail: failed}); } catch (e) { failed(); }
     return state.ready;
   }
-  function previewAnimation(path) {
-    if (appHidden || !ANIMATIONS[path]) path = '';
-    if (activeAnimation === path) return;
-    var previous = ANIMATIONS[activeAnimation];
-    if (previous) releaseImage(previous.path);
-    if (CUSTOM && previous && previous.custom) CUSTOM.release(false);
-    activeAnimation = path; animationStarted = Date.now(); lastAnimationFrame = -1;
+  function clearAnimations() {
+    Object.keys(playingAnimations).forEach(function (path) {
+      var meta = ANIMATIONS[path];
+      if (meta && !meta.custom) releaseImage(meta.path);
+    });
+    playingAnimations = {};
+    if (CUSTOM) CUSTOM.release(false);
     if (animationTimer !== null && typeof clearInterval === 'function') clearInterval(animationTimer);
     animationTimer = null;
-    if (path && typeof setInterval === 'function') animationTimer = setInterval(function () {
-      // Keep the selected image playing after release. Skip paints while it is off screen.
-      if (!hits.some(function (hit) { return hit.previewPath === activeAnimation; })) return;
-      var meta = ANIMATIONS[activeAnimation], entry = meta && images[meta.path];
-      if (meta && meta.custom) {
-        var customSlot = CUSTOM.image(activeAnimation.slice(9), true);
-        if (!customSlot.value) return;
-        var customFrame = Math.floor((Date.now() - animationStarted) / Math.max(20, customSlot.value.frame_ms)) % customSlot.value.frames;
-        if (customFrame !== lastAnimationFrame) { lastAnimationFrame = customFrame; draw(); }
-        return;
-      }
-      if (!entry || !entry.ready) return;
-      var frame = Math.floor((Date.now() - animationStarted) / Math.max(20, meta.frame_ms)) % meta.frames;
-      if (frame !== lastAnimationFrame) { lastAnimationFrame = frame; draw(); }
-    }, Math.min(50, Math.max(20, ANIMATIONS[path].frame_ms / 2)));
+  }
+  function animationFrame(state, meta) {
+    return Math.floor((Date.now() - state.started) / Math.max(20, meta.frame_ms)) % meta.frames;
+  }
+  function previewAnimation(path) {
+    if (!path) { clearAnimations(); draw(); return; }
+    if (appHidden || !ANIMATIONS[path] || playingAnimations[path]) return;
+    playingAnimations[path] = {started: Date.now(), lastFrame: -1, generation: 0};
+    if (animationTimer === null && typeof setInterval === 'function') animationTimer = setInterval(function () {
+      var changed = false;
+      Object.keys(playingAnimations).forEach(function (key) {
+        var state = playingAnimations[key], meta = ANIMATIONS[key];
+        // Offscreen cards retain their playback choice, without loading or repainting.
+        if (!meta || state.generation !== paintGeneration) return;
+        if (meta.custom) {
+          var slot = CUSTOM.image(key.slice(9), true);
+          if (!slot.value) return;
+          meta = slot.value;
+        } else {
+          var entry = images[meta.path];
+          if (!entry || !entry.ready) return;
+        }
+        var frame = animationFrame(state, meta);
+        if (frame !== state.lastFrame) { state.lastFrame = frame; changed = true; }
+      });
+      if (changed) draw(); // One shared repaint for all visible playing cards.
+    }, 20);
     draw();
+  }
+  function releaseOffscreenAnimations() {
+    Object.keys(playingAnimations).forEach(function (path) {
+      var state = playingAnimations[path], meta = ANIMATIONS[path];
+      if (!meta || state.generation === paintGeneration) return;
+      if (meta.custom) CUSTOM.releaseImage(path.slice(9), true);
+      else releaseImage(meta.path);
+    });
   }
   function imageFor(path) {
     if (!path || !packageReady(ANIMATION_PACKAGES[path])) return null;
@@ -143,9 +163,11 @@
         img.onload = function () {
           if (images[path] !== entry) return;
           entry.ready = true; entry.bytes = img.width * img.height * 4; imageBytes += entry.bytes;
-          if (ANIMATIONS[activeAnimation] && ANIMATIONS[activeAnimation].path === path) {
-            animationStarted = Date.now(); lastAnimationFrame = 0;
-          }
+          Object.keys(playingAnimations).forEach(function (key) {
+            if (ANIMATIONS[key] && ANIMATIONS[key].path === path) {
+              playingAnimations[key].started = Date.now(); playingAnimations[key].lastFrame = 0;
+            }
+          });
           trimImages(false); draw();
         };
         img.onerror = function () { if (images[path] !== entry) return; entry.failed = true; draw(); };
@@ -170,15 +192,17 @@
   function paint() {
     scheduledFrame = null;
     if (appHidden) return;
+    if (animationScreen !== app.screen) { clearAnimations(); animationScreen = app.screen; }
     drawing = true; dirty = false; paintGeneration++; perf.frames++; frameView = undefined;
-    try { renderScreen(); } finally { drawing = false; trimImages(false); }
+    try { renderScreen(); } finally { drawing = false; releaseOffscreenAnimations(); trimImages(false); }
     if (dirty) draw();
   }
   function hideGame() {
+    if (appHidden) return;
     appHidden = true;
     if (scheduledFrame !== null && cancelFrame) cancelFrame(scheduledFrame);
     scheduledFrame = null;
-    pausedAnimation = activeAnimation; previewAnimation(''); stopCarousel();
+    pausedAnimations = Object.keys(playingAnimations); clearAnimations(); stopCarousel();
     if (app.screen === 'dice' && app.diceIntro) {
       settleDiceIntro();
       if (diceHandoffTimer !== null && typeof clearTimeout === 'function') clearTimeout(diceHandoffTimer);
@@ -191,8 +215,8 @@
   }
   function showGame() {
     appHidden = false; windowInfo = null;
-    if (pausedAnimation && app.screen !== 'menu') previewAnimation(pausedAnimation);
-    pausedAnimation = '';
+    if (app.screen === animationScreen && app.screen !== 'menu') pausedAnimations.forEach(previewAnimation);
+    pausedAnimations = [];
     if (app.online && app.online.authenticated) { app.online.resume(); startOnlinePoll(); }
     if (app.screen === 'decision' || app.screen === 'rating' || app.screen === 'online-vote' || app.screen === 'online-rating') startCarousel();
     draw();
@@ -246,7 +270,8 @@
   }
   function cover(path, x, y, w, h, radius) {
     if (CUSTOM && path && path.indexOf('custom://') === 0) { customCover(path, x, y, w, h, radius); return; }
-    var animation = path === activeAnimation ? ANIMATIONS[path] : null;
+    var playback = playingAnimations[path], animation = playback ? ANIMATIONS[path] : null;
+    if (playback) playback.generation = paintGeneration;
     var animatedImage = animation ? imageFor(animation.path) : null;
     var img = animatedImage || imageFor(path);
     ctx.save();
@@ -258,7 +283,7 @@
       var ratio = Math.min(w / sourceWidth, h / sourceHeight);
       var dw = sourceWidth * ratio, dh = sourceHeight * ratio;
       if (animatedImage) {
-        var frame = Math.floor((Date.now() - animationStarted) / Math.max(20, animation.frame_ms)) % animation.frames;
+        var frame = animationFrame(playback, animation);
         ctx.drawImage(img, (frame % animation.columns) * animation.frame_width,
           Math.floor(frame / animation.columns) * animation.frame_height,
           animation.frame_width, animation.frame_height,
@@ -414,7 +439,7 @@
   }
   function closeOnline() {
     stopDiceIntro();
-    previewAnimation(''); pausedAnimation = '';
+    previewAnimation(''); pausedAnimations = [];
     if (app.onlinePoll) { clearInterval(app.onlinePoll); app.onlinePoll = null; }
     if (app.online) app.online.close();
     closeMemeForm();
@@ -1116,7 +1141,7 @@
       if (m.format === 'gif' && m.frames > 1) ANIMATIONS[m.path] = {custom: true, path: m.path, frames: 2, frame_ms: 83.34};
     });
     Object.keys(ANIMATIONS).forEach(function (path) {
-      if (ANIMATIONS[path].custom && !valid[path]) { if (activeAnimation === path) previewAnimation(''); delete ANIMATIONS[path]; }
+      if (ANIMATIONS[path].custom && !valid[path]) { delete playingAnimations[path]; CUSTOM.releaseImage(path.slice(9), true); delete ANIMATIONS[path]; }
     });
   }
   function drawCustomSurface(value, frame, x, y, w, h) {
@@ -1125,10 +1150,11 @@
       value.width, value.height, x + (w - dw) / 2, y + (h - dh) / 2, dw, dh);
   }
   function customCover(path, x, y, w, h, radius) {
-    var key = path.slice(9), available = CUSTOM.get(key), slot = available ? CUSTOM.image(key, path === activeAnimation) : null;
+    var key = path.slice(9), playback = playingAnimations[path], available = CUSTOM.get(key), slot = available ? CUSTOM.image(key, !!playback) : null;
+    if (playback) playback.generation = paintGeneration;
     ctx.save(); rr(x, y, w, h, radius || 10, C.deep); ctx.clip();
     if (slot && slot.value) {
-      var frame = path === activeAnimation ? Math.floor((Date.now() - animationStarted) / Math.max(20, slot.value.frame_ms)) % slot.value.frames : 0;
+      var frame = playback ? animationFrame(playback, slot.value) : 0;
       drawCustomSurface(slot.value, frame, x, y, w, h);
     } else label(!available ? '表情接收中…' : slot && slot.state === 'failed' ? '图片无法加载' : '图片加载中…', x + w / 2, y + h / 2, 15, C.muted, 'center', '500', w - 20);
     ctx.restore(); rr(x, y, w, h, radius || 10, null, C.line, 1);
@@ -1310,7 +1336,7 @@
   }
   function carousel(memes, x, y, w, h) {
     var index = app.carousel % memes.length;
-    if (memes[index].key.indexOf('meme.user.') === 0 && ANIMATIONS[memes[index].path] && activeAnimation !== memes[index].path) previewAnimation(memes[index].path);
+    if (memes[index].key.indexOf('meme.user.') === 0 && ANIMATIONS[memes[index].path] && !playingAnimations[memes[index].path]) previewAnimation(memes[index].path);
     cover(memes[index].path, x, y, w, h, 12);
     hits.push({x: x, y: y, w: w, h: h, previewPath: memes[index].path});
     label((index + 1) + ' / ' + memes.length, x + w / 2, y + h + 22, 14, C.muted, 'center');
@@ -1503,7 +1529,7 @@
   }
   function backToMenu() {
     stopDiceIntro();
-    previewAnimation(''); pausedAnimation = '';
+    previewAnimation(''); pausedAnimations = [];
     app.table = null; app.screen = 'menu'; app.selection = []; app.chosen = [];
     app.toast = ''; app.memeQuery = '';
     closeMemeForm(); app.memeBusy = false; app.memeNotice = ''; app.memeScope = 'all';
@@ -1664,7 +1690,7 @@
     if (wx.onWindowResize) wx.onWindowResize(function () { windowInfo = null; draw(); });
     if (wx.onHide) wx.onHide(hideGame);
     if (wx.onMemoryWarning) wx.onMemoryWarning(function () {
-      previewAnimation(''); pausedAnimation = ''; trimImages(true); if (CUSTOM) CUSTOM.release();
+      previewAnimation(''); pausedAnimations = []; trimImages(true); if (CUSTOM) CUSTOM.release();
       if (app.memeForm && app.memeForm.previewReady) {
         app.memeForm.preview = null; app.memeForm.status = '内存紧张，预览已暂停；仍可保存或重新选图';
         if (draftTicker !== null) clearInterval(draftTicker); draftTicker = null;

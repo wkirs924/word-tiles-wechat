@@ -1,5 +1,7 @@
 # 实际状态
 
+2026-09-30 多张表情动图同时循环：按用户要求，`apps/wechat-preview/game.js` 从单活动图集改为逐图播放状态和一个共享计时器，点第二张不停止第一张，重复点击不重新加载已有图集。滚动离屏释放该图集但保留本页播放选择，滚回续播；后台停止计时并释放图像，前台恢复本页所有已启动动图；切换页面、内存告警清理播放。`custom-memes.js` 自定义 GIF 解码缓存也改为按 key 独立保存，支持单图释放并拒绝释放后的迟到结果。通过 `python3 scripts/build-wechat-phone-preview.py` 同步手机包；新增浏览器/模拟手机双图推进、后台与滚动恢复、退出清理、自定义 GIF 独立缓存及迟到解码检查，`npm test` 全套 55/55 通过。更新预览 README、性能说明和自定义表情说明。尚未验证微信 Android/iOS 多图并播帧率与峰值内存；GitHub Pages 线上部署结果需另外核验。
+
 2026-09-30 发布方案变更：用户明确要求直接公开原仓库并启用 GitHub Pages，替代下方“私密源 → 独立公开副本”方案。移除尚未提交的跨仓库同步流程，改为 `.github/workflows/pages.yml`：Node 24 全套测试、规则包重建、允许列表导出、Pages artifact 上传及部署，不需要个人 token。对应更新 README 与 `docs/PUBLIC_WEB.md`。扫描现有 Git 历史 394 个 blob，未发现常见私钥/GitHub token/AWS access key 格式或被跟踪的 .env、SQLite、私密微信配置；此检查并非完整隐私保证。尝试 GitHub API PATCH 将仓库 private=false，返回 Forbidden，仓库可见性及 Pages 上线尚未完成。
 
 2026-09-30 公开网页副本发布准备：新增 `scripts/export-public-web.mjs`、`.github/workflows/publish-public-web.yml`、`tests/public-web-export.test.mjs` 和 `docs/PUBLIC_WEB.md`。仅导出固定网页脚本及清单引用的图片/图集，生成独立入口，公开副本隐藏无后端的联机按钮；不修改源游戏或手机包，不复制私密仓库历史、服务端、微信配置、开发文档、凭据及玩家本地表情。公开目标只更新 `docs/`，私密工程为唯一开发源。`npm test`：51/51 通过；`node scripts/build-preview-core.mjs` 重建与既有包一致；允许列表、路径越界、符号链接、常见凭据格式拦截及导出游戏开局验证通过。导出 149 文件、18,240,233 bytes；本地 HTTP 成功加载入口和五份脚本。未创建公开仓库、未推送、未上线 Pages：当前 GitHub API `/user` 返回 Forbidden，需独立公开仓库、私密仓库中的 `PUBLIC_WEB_TOKEN` Secret 和 `PUBLIC_WEB_REPOSITORY` Variable，以及公开仓库 Pages main /docs 设置。现有素材公开使用权需由发布者确认，浏览器必要逻辑和素材本身不能隐藏。
