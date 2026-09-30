@@ -1,0 +1,15 @@
+{
+  "method": "120 event batches, 8 scroll events per batch. Mock Canvas and 640x640 mock images; excludes actual GPU, image decode, network and device FPS.",
+  "before": {
+    "frames": 960,
+    "rankCalls": 960,
+    "vm_elapsed_ms": 1321.74,
+    "mock_decoded_image_bytes": 101580800
+  },
+  "after": {
+    "frames": 120,
+    "rankCalls": 0,
+    "vm_elapsed_ms": 34.59,
+    "mock_decoded_image_bytes": 24576000
+  }
+}

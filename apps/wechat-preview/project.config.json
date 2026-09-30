@@ -1,0 +1,11 @@
+{
+  "appid": "wxba06c0039312091a",
+  "compileType": "game",
+  "libVersion": "game",
+  "projectname": "word-tiles-wechat-preview",
+  "setting": {
+    "es6": true,
+    "minified": false,
+    "urlCheck": false
+  }
+}

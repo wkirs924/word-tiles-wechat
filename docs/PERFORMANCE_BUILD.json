@@ -1,0 +1,17 @@
+{
+  "main_bytes": 1927554,
+  "total_bytes": 18299553,
+  "main_budget": 3800000,
+  "total_budget": 19000000,
+  "subpackage_bytes": {
+    "animations-01": 3383037,
+    "animations-02": 3281105,
+    "animations-03": 3374609,
+    "animations-04": 3290776,
+    "animations-05": 3042472
+  },
+  "animation_count": 59,
+  "max_frame_edge": 288,
+  "max_atlas_decoded_bytes": 9990144,
+  "code_minification": "WeChat developer tools setting.minified=true; sizes above are unminified disk bytes"
+}

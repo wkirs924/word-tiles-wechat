@@ -1,0 +1,86 @@
+import {canonical, copy, dictionary, identifier, json, object, onlyKeys, type Json} from './json.ts';
+import {defaults, validateConfig, type Config} from './rules.ts';
+import {ranking as rankScores} from './scoring.ts';
+import {reduceRound, startRound, type Event, type RoundState} from './round.ts';
+
+export interface Receipt {command_id?: string; ok: boolean; error: string; revision: number; event_ids: string[]}
+export interface Summary {round_number: number; round_id: string; reason: string|null; winner_id: string|null; settled: boolean; scores: Record<string,any>|null; confirmed_sentence_points: Record<string,number>; confirmed_rating_bonus_thirds: Record<string,number>; remaining_tiles: Record<string,number>; sentences: Record<string,unknown>[]; cumulative_totals_thirds: Record<string,number>}
+export interface SessionState {
+  schema_version: 1; initial: {session_id:string;players:string[];host_player_id:string;config:Config};
+  session_id:string;players:string[];host_player_id:string;config:Config;revision:number;round_counter:number;
+  round:RoundState|null;history:Summary[];totals_thirds:Record<string,number>;
+  receipts:Record<string,{fingerprint:string;receipt:Receipt}>;
+  journal:{actor:string;command:Record<string,unknown>;receipt:Receipt}[];
+}
+export type CreateResult={ok:true;state:SessionState}|{ok:false;error:string};
+export interface Step {state:SessionState;receipt:Receipt;events:Event[];duplicate:boolean}
+export function createSession(sessionId: unknown, players: unknown, hostId: unknown, config: unknown = {}): CreateResult {
+  if (!identifier(sessionId)||!json(players)||!json(config)||!object(config)) return {ok:false,error:'INVALID_SESSION'};
+  const rules=Object.keys(config).length===0?defaults():copy(config) as unknown as Config;
+  const error=validateConfig(rules);if(error) return {ok:false,error};
+  if (!Array.isArray(players)||players.some(p=>!identifier(p))||new Set(players).size!==players.length||players.length!==rules.player_count||!players.includes(hostId)) return {ok:false,error:'INVALID_PLAYERS'};
+  const totals=dictionary<number>();for(const p of players as string[]) totals[p]=0;
+  const initial={session_id:sessionId,players:copy(players as string[]),host_player_id:hostId as string,config:copy(rules)};
+  return {ok:true,state:{schema_version:1,initial,session_id:sessionId,players:copy(players as string[]),host_player_id:hostId as string,config:rules,revision:0,round_counter:0,round:null,history:[],totals_thirds:totals,receipts:dictionary(),journal:[]}};
+}
+export function ranking(state:SessionState) {return rankScores(state.players,state.totals_thirds);}
+function uncached(previous:SessionState,error:string):Step {return {state:copy(previous),receipt:{ok:false,error,revision:previous.revision,event_ids:[]},events:[],duplicate:false};}
+function recordRound(s:SessionState,events:Event[]) {
+  const r=s.round!;const settled=r.phase==='COMPLETED';const scores=settled?copy((r.result as any).scores):null;
+  if(settled) for(const p of s.players) s.totals_thirds[p]+=scores[p].total.numerator;
+  const remaining=dictionary<number>();for(const p of s.players) remaining[p]=r.hands[p].length;
+  const summary:Summary={round_number:s.round_counter,round_id:r.round_id,reason:r.end_reason,winner_id:r.winner_id,settled,scores,confirmed_sentence_points:copy(r.scores),confirmed_rating_bonus_thirds:copy(r.rating_bonus_thirds),remaining_tiles:remaining,sentences:copy(r.sentences),cumulative_totals_thirds:copy(s.totals_thirds)};
+  s.history.push(summary);events.push({type:'ROUND_RECORDED',public:{summary:copy(summary),ranking:ranking(s)},private:dictionary()});
+}
+function apply(s:SessionState,command:Record<string,unknown>,actor:string): {ok:true;events:Event[]}|{ok:false;error:string} {
+  if(!onlyKeys(command,['command_id','type','payload','round_id','turn_id','proposal_id'])||typeof command.type!=='string'||!object(command.payload)) return {ok:false,error:'INVALID_COMMAND'};
+  if(command.type==='START_NEXT_ROUND') {
+    if(actor!==s.host_player_id) return {ok:false,error:'HOST_REQUIRED'};
+    if(s.round&&s.round.phase!=='COMPLETED'&&s.round.phase!=='ABORTED') return {ok:false,error:'ROUND_STILL_ACTIVE'};
+    const payload=copy(command.payload), extra=Object.hasOwn(payload,'allow_extra_round')?payload.allow_extra_round:false;
+    if(typeof extra!=='boolean') return {ok:false,error:'INVALID_PAYLOAD'};
+    delete payload.allow_extra_round;
+    let completed=0;
+    for(const h of s.history) {if(h.round_id===payload.round_id) return {ok:false,error:'ROUND_ID_REUSED'};if(h.settled) completed++;}
+    if(completed>=s.config.planned_rounds&&!extra) return {ok:false,error:'PLANNED_ROUNDS_FINISHED'};
+    const started=startRound(s.players,s.config,payload);if(!started.ok) return started;
+    s.round=started.state;s.round_counter++;return {ok:true,events:started.events};
+  }
+  if(!s.round) return {ok:false,error:'NO_ACTIVE_ROUND'};
+  const outcome=reduceRound(s.round,command,actor,actor===s.host_player_id);if(!outcome.ok) return outcome;
+  s.round=outcome.state;if(s.round.phase==='COMPLETED'||s.round.phase==='ABORTED') recordRound(s,outcome.events);
+  return {ok:true,events:outcome.events};
+}
+export function reduceSession(previous:SessionState, input:unknown, actor:string):Step {
+  if(!previous.players.includes(actor)) return uncached(previous,'UNKNOWN_IDENTITY');
+  if(!json(input)||!object(input)||!identifier(input.command_id)) return uncached(previous,'INVALID_COMMAND');
+  const command=input as Record<string,unknown>, key=canonical([actor,command.command_id] as Json), fingerprint=canonical(input);
+  if(Object.hasOwn(previous.receipts,key)) {
+    const entry=previous.receipts[key];if(entry.fingerprint!==fingerprint) return uncached(previous,'COMMAND_ID_REUSED');
+    return {state:copy(previous),receipt:copy(entry.receipt),events:[],duplicate:true};
+  }
+  const state=copy(previous), outcome=apply(state,command,actor);let events:Event[]=[];
+  if(outcome.ok) {
+    state.revision++;events=outcome.events;
+    events.forEach((event,index)=>{event.id=`${state.session_id}:${state.revision}:${index}`;event.revision=state.revision;event.round_id=state.round!.round_id;});
+  }
+  const receipt:Receipt={command_id:command.command_id as string,ok:outcome.ok,error:outcome.ok?'':outcome.error,revision:state.revision,event_ids:events.map(e=>e.id!)};
+  state.receipts[key]={fingerprint,receipt:copy(receipt)};
+  state.journal.push({actor,command:copy(command),receipt:copy(receipt)});
+  return {state,receipt,events:copy(events),duplicate:false};
+}
+export function exportReplay(state:SessionState) {return {schema_version:1,initial:copy(state.initial),journal:copy(state.journal)};}
+export function replay(input:unknown):CreateResult {
+  if(!json(input)||!object(input)||input.schema_version!==1||!object(input.initial)||!Array.isArray(input.journal)) return {ok:false,error:'INVALID_REPLAY'};
+  const i=input.initial;
+  if(typeof i.session_id!=='string'||!Array.isArray(i.players)||typeof i.host_player_id!=='string'||!object(i.config)) return {ok:false,error:'INVALID_REPLAY'};
+  const created=createSession(i.session_id,i.players,i.host_player_id,i.config);if(!created.ok)return created;
+  let state=created.state;
+  for(const entry of input.journal) {
+    if(!object(entry)||typeof entry.actor!=='string'||!object(entry.command)||!object(entry.receipt)) return {ok:false,error:'INVALID_REPLAY_ENTRY'};
+    const step=reduceSession(state,entry.command,entry.actor);
+    if(step.duplicate||canonical(step.receipt as unknown as Json)!==canonical(entry.receipt as Json)) return {ok:false,error:'REPLAY_MISMATCH'};
+    state=step.state;
+  }
+  return {ok:true,state};
+}

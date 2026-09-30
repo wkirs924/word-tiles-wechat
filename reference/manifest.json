@@ -1,0 +1,342 @@
+[
+  {
+    "path": "project.godot",
+    "sha256": "d4e92158835213f56a6a65e8e68a49f07084c22c80acc19c20bb1965884cce15",
+    "bytes": 710
+  },
+  {
+    "path": "README.md",
+    "sha256": "4dfdd3c7040f1bf6eff6a2230b15a0b62f3252fc85767fe1cad814e4ae713b67",
+    "bytes": 5827
+  },
+  {
+    "path": "application/local_host.gd",
+    "sha256": "9b7cf2b76c2ea0feee30b7504dd27a3b4f30e3654ab96bc32c556cc4a154cb30",
+    "bytes": 1813
+  },
+  {
+    "path": "application/local_table.gd",
+    "sha256": "29f8e7aebae683817f1487bc487d14aa3835d8100e784c7769e1544b0562463f",
+    "bytes": 2091
+  },
+  {
+    "path": "application/session_reducer.gd",
+    "sha256": "c9b14391ceedcdbd8e0eca1c72f092c9d3d37787acf53e6e55b8a0a18382c6bf",
+    "bytes": 8820
+  },
+  {
+    "path": "content/catalog.json",
+    "sha256": "e4a1154f19a70e58a5def4028b8359c63f6395dfee4b55e6dbdcdeacd43d94a2",
+    "bytes": 49027
+  },
+  {
+    "path": "content/catalog.previous.json",
+    "sha256": "3c524d6c3fe1c57ffba3fbb5c018c4bf1c1c414eb375c0e3e91c77d7eae90280",
+    "bytes": 68212
+  },
+  {
+    "path": "content/ui_contract.json",
+    "sha256": "9329c634a1ad59564450d2cb83a1c7116cf0c702b465028bb443ff46a6ad2523",
+    "bytes": 170
+  },
+  {
+    "path": "core/invariants.gd",
+    "sha256": "fe962d3051c6750a3015ca1619e7ebd9b2794eb6d4a57134f498600d468b8879",
+    "bytes": 2948
+  },
+  {
+    "path": "core/json_data.gd",
+    "sha256": "5df3f6f32577dd1a08e2e758ab41ea4890fce1709671c817c2c1bd446f67ad42",
+    "bytes": 1917
+  },
+  {
+    "path": "core/round_reducer.gd",
+    "sha256": "d2123d44f2b2567dc9f6894470a8af9cdd487ad8a2647829d8db0d1b1b865d2d",
+    "bytes": 10833
+  },
+  {
+    "path": "core/round_setup.gd",
+    "sha256": "42836b2ace10b66af7931569ec03f11b1d9d45a41431be23cc8d49cc4da86a8d",
+    "bytes": 3132
+  },
+  {
+    "path": "core/rules.gd",
+    "sha256": "c536bcd6dbac96e81f96271fcb822fbbb5507df59f112d25e63ed85e99528977",
+    "bytes": 3660
+  },
+  {
+    "path": "docs/ARCHITECTURE.md",
+    "sha256": "c22e108c2413df42be7b5e5009084f2b7a84a9432e928b9cf07b2b20a86a2e3f",
+    "bytes": 8383
+  },
+  {
+    "path": "docs/ASSET_GUIDE.md",
+    "sha256": "a8333fd512086ba3e5c3ef69c57887a628ad969c5ff945631f137d80052b9da2",
+    "bytes": 9995
+  },
+  {
+    "path": "docs/BALLOT_V4_HANDOFF.md",
+    "sha256": "e43b6475f77fc848ddadba2696db4721437eefcfb955f5f85ab2842c57f83fff",
+    "bytes": 3613
+  },
+  {
+    "path": "docs/BASKETBALL_PACK.md",
+    "sha256": "ef61d83c666572bba1bd91dd9aeaaf6bedbc5a2844909a1b1aaaf4368402c3a6",
+    "bytes": 5723
+  },
+  {
+    "path": "docs/CLEANUP_CHECK.md",
+    "sha256": "35c90666db60bfe8010fa1c8dd48085688871231468dbc2f7577cc29a33e85b2",
+    "bytes": 4187
+  },
+  {
+    "path": "docs/CONTENT_EDITOR.md",
+    "sha256": "9e158c70581d39ba60adf82d2f26563f3a644e6e7361f8d5fa9627b88444ee73",
+    "bytes": 6975
+  },
+  {
+    "path": "docs/CONTRACTS.md",
+    "sha256": "e32be558bb96358a294a8e346b6ac782fd11007536fe21fcd1781dfc0356f271",
+    "bytes": 5790
+  },
+  {
+    "path": "docs/INLINE_MEME_HANDOFF.md",
+    "sha256": "bec2e9aa41d564bd985b2c80c1022180db482e6b4c33eb8235327c5103b9d275",
+    "bytes": 8325
+  },
+  {
+    "path": "docs/LOL_DECK.md",
+    "sha256": "c8f7c0848cc7092b230618ccca61ad8659a6a75075f1e3d8e05047701d9031b0",
+    "bytes": 2255
+  },
+  {
+    "path": "docs/M1_ACCEPTANCE.md",
+    "sha256": "e91a3561f713ff1317bad6d35aef92c6efd2562614b4ba82e1b75eed78480f7d",
+    "bytes": 5250
+  },
+  {
+    "path": "docs/M2_ACCEPTANCE.md",
+    "sha256": "79a7538f59ad2f81336cdfba43f0216fcf747021f804db641eb8cb2639b873bd",
+    "bytes": 2212
+  },
+  {
+    "path": "docs/M3_M4_ACCEPTANCE.md",
+    "sha256": "3a5f09154206733abc6c91a243e0929e4c2f591a061da0e7088148904019a4f0",
+    "bytes": 3641
+  },
+  {
+    "path": "docs/MAHJONG_UI.md",
+    "sha256": "9e1298d9922b4af22828de9132e088a7bbc080ace107d7cad58979d79af7f3d3",
+    "bytes": 4157
+  },
+  {
+    "path": "docs/MAINTENANCE.md",
+    "sha256": "0835863d6445907a02819c0e8ad5965ea0aee02fcd999f0be6c449067b6e08b2",
+    "bytes": 9382
+  },
+  {
+    "path": "docs/PRESENTATION_REFACTOR.md",
+    "sha256": "1ef247c2b40d12b733779a307ccb59c1c0a865507f0b07318af79470064f3fbb",
+    "bytes": 7433
+  },
+  {
+    "path": "docs/REFERENCES.md",
+    "sha256": "5a470e43d25431a1f5d4c05788fb07a40ea9630055602180bf65638c92d83185",
+    "bytes": 4795
+  },
+  {
+    "path": "docs/RULES.md",
+    "sha256": "f40481b80bc3adb18952b4fb38ba476c38cd255fa204a1d01dd47d5bfef9f086",
+    "bytes": 4977
+  },
+  {
+    "path": "docs/UI_MOTION_HANDOFF.md",
+    "sha256": "e5f48d5fe4d56b272e3b1e50b9c4d591955ba19e02704384455dc83c6efc4e51",
+    "bytes": 5160
+  },
+  {
+    "path": "docs/UI_POLISH_HANDOFF.md",
+    "sha256": "707f70685eb57b2a1d38cbef348759e668c0e78ea2c09632b3a575e96ad011d8",
+    "bytes": 3015
+  },
+  {
+    "path": "presentation/ballot_view.gd",
+    "sha256": "3f6deacdc4c8500c13e60f04872692aba127b847ff17eece162d3c3be80cebdc",
+    "bytes": 4568
+  },
+  {
+    "path": "presentation/content_store.gd",
+    "sha256": "030bb1da196c99658b775e3b80409dbbc34b0e2eccdb20bf0a9f1a9c974e9dfe",
+    "bytes": 10464
+  },
+  {
+    "path": "presentation/digital_number.gd",
+    "sha256": "cec823e00a8e0d2908f177c84409de64f09592ea9cb9961248afaa7fdee432a1",
+    "bytes": 2072
+  },
+  {
+    "path": "presentation/event_feedback.gd",
+    "sha256": "28d61312bb102538e4a01c64bebd25649f35a2f3f0c7478a4d4e45a205661028",
+    "bytes": 3380
+  },
+  {
+    "path": "presentation/game_controller.gd",
+    "sha256": "453e7c170caecf0c2790cf1f48a627baba54aa3020e6eb3ccdff1d563c75cfae",
+    "bytes": 6984
+  },
+  {
+    "path": "presentation/lobby_screens.gd",
+    "sha256": "e6b329e871d72cb6e57c0f0dce6a2d061e775eba6cbc7346988ab48de931c6dc",
+    "bytes": 3928
+  },
+  {
+    "path": "presentation/mahjong_table.gd",
+    "sha256": "679a48a10cbd114a5a2f41f85662ac9b516c9b2f295b2ed8408a644cf3bee75b",
+    "bytes": 13324
+  },
+  {
+    "path": "presentation/main.gd",
+    "sha256": "e60b07dcee1f202b15cfc03f5bcd4ca69c9e71d35f6a80a6ed735f3d7ef8b468",
+    "bytes": 7490
+  },
+  {
+    "path": "presentation/main.tscn",
+    "sha256": "f5eae697e7550b416a2157adc3f24a5dcef823c48ef022338c8a8bd06b965489",
+    "bytes": 283
+  },
+  {
+    "path": "presentation/meme_card.gd",
+    "sha256": "61499c0ce646af3392b5aa68be6c18c6e5a214063ff579e300e140d41d0a5614",
+    "bytes": 2646
+  },
+  {
+    "path": "presentation/meme_composer.gd",
+    "sha256": "a1944715851b2656579ca3236293a6bce67c1abef1bb29a971b78d9cb7c1d37e",
+    "bytes": 4518
+  },
+  {
+    "path": "presentation/meme_player.gd",
+    "sha256": "c7eec9ad2e6759f6513dda309d7b12e05ff1c48bcb9b31e4e9d7f4c80fac0ab8",
+    "bytes": 2810
+  },
+  {
+    "path": "presentation/meme_search.gd",
+    "sha256": "f5d699cbff7a4e5de07f37828af791cbd5ae2153ec6c3b6664ff7560f7e29557",
+    "bytes": 1053
+  },
+  {
+    "path": "presentation/order_chip.gd",
+    "sha256": "191ae2524825fa811340a6c7de59e66210672f52aa8d4d61b321bb194df48d43",
+    "bytes": 1527
+  },
+  {
+    "path": "presentation/ordered_strip.gd",
+    "sha256": "71e93d9c4116f3d3fb463bec63ddaafa899317599900d0f2532412a410b85001",
+    "bytes": 2863
+  },
+  {
+    "path": "presentation/result_view.gd",
+    "sha256": "d1d27cda3752e99fd822ed9aae25a19fbb57ad70bc22c69c9739f5bd819586b3",
+    "bytes": 2325
+  },
+  {
+    "path": "presentation/ui_motion.gd",
+    "sha256": "785f6b73da1ee549bb81f0ca16ca5d3170acb33f9e44f99349e998d4002f6564",
+    "bytes": 3181
+  },
+  {
+    "path": "presentation/ui_theme.gd",
+    "sha256": "ad581807f87d8475327049e0489412d8d1935570ddefd02213e24bb3a81d1305",
+    "bytes": 2989
+  },
+  {
+    "path": "presentation/ui_widgets.gd",
+    "sha256": "1f2e8f4d4fad02a8216ea488104765668162cca8921746e99f3e2ae28982681a",
+    "bytes": 2225
+  },
+  {
+    "path": "projection/player_projection.gd",
+    "sha256": "934237e19a6fed070766439c7d3905988238cfb79d06c04f490fc6b3492fd03b",
+    "bytes": 3208
+  },
+  {
+    "path": "tests/capture_basketball.gd",
+    "sha256": "207a9063c91fc983b0cadcbafd41faeb776a112ddfe7b365cf492fd55f3a31b8",
+    "bytes": 1699
+  },
+  {
+    "path": "tests/capture_preview.gd",
+    "sha256": "2c65c07ebb485cd99ad97a77a92f072fd3c18107d18959a21bbe7d91577c5f2d",
+    "bytes": 3120
+  },
+  {
+    "path": "tests/diag_capture.gd",
+    "sha256": "e32011593176a2925d435842ead6ad56abb6403641bd6504bb85a384c6765e20",
+    "bytes": 1146
+  },
+  {
+    "path": "tests/diag_texture.gd",
+    "sha256": "21cfcc20918bb94411da3b8da5588ca6d5ec3891145e465ef3a4361d4a5ce92c",
+    "bytes": 1015
+  },
+  {
+    "path": "tests/run_logic_tests.gd",
+    "sha256": "2f19ce36834f204eccb44cd0ce9212599677c606c514e6b6a654f2e33140b92c",
+    "bytes": 683
+  },
+  {
+    "path": "tests/run_tests.gd",
+    "sha256": "665bd7b8df35de0d227b2517196a3212d08792b59a3991556cfe1d669c468b0b",
+    "bytes": 1512
+  },
+  {
+    "path": "tests/run_ui_tests.gd",
+    "sha256": "bf26082720a57bbb382c2d55407d4b34058c31a3abd51160f16174a10b406a81",
+    "bytes": 766
+  },
+  {
+    "path": "tests/test_core.gd",
+    "sha256": "3547aa01a2266b4b1cd37c0616231621cd0584a455dd2cd04fe53e6ea23b9500",
+    "bytes": 32236
+  },
+  {
+    "path": "tests/test_game_controller.gd",
+    "sha256": "73c04b875b69d9bc9ea31ba45c239209e2d7b34a95fcc2f56ee2eade74756f76",
+    "bytes": 5108
+  },
+  {
+    "path": "tests/test_host.gd",
+    "sha256": "cfe9cf6195a0b7376eb2b840bfc462072f6700c4c734477aefb28969f12b8f65",
+    "bytes": 1500
+  },
+  {
+    "path": "tests/test_local_table.gd",
+    "sha256": "96d39d6ec7ba66bb92c143b803a89789e754abf7479050fcadc68cb7c7ce8687",
+    "bytes": 3975
+  },
+  {
+    "path": "tests/test_meme_search.gd",
+    "sha256": "d1f9e0bbb6b10db6972c766d1695fd2a318c3d4a9df44fe37726d8456cc16c9e",
+    "bytes": 1827
+  },
+  {
+    "path": "tests/test_presentation.gd",
+    "sha256": "457cbf1fa65071b1220088482ea8ee0895d846d4f69005191731e933da535b9d",
+    "bytes": 17573
+  },
+  {
+    "path": "tests/test_ui_motion.gd",
+    "sha256": "b8bd5887d6c74a4d152554cdb5defd758aaef9e28be16230c2daab0abe2795b8",
+    "bytes": 3540
+  },
+  {
+    "path": "tests/verify_assets.gd",
+    "sha256": "9e11c5ca3f36d5623e560ab873600679a1c9e0f701ffe5bd14e91070c88ab15d",
+    "bytes": 1181
+  },
+  {
+    "path": "tests/verify_memes_capture.gd",
+    "sha256": "e9033034b320151b08314ef7090b1e4942c76bd232f59007deb642ee97c97f4d",
+    "bytes": 1323
+  }
+]

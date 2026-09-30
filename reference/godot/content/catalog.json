@@ -1,0 +1,2040 @@
+{
+  "schema_version": 1,
+  "revision": 19,
+  "title": "字有意思 · 素材工作台",
+  "theme": {
+    "background": "#091d23",
+    "surface": "#183d3a",
+    "paper": "#f4eddc",
+    "ink": "#223c39",
+    "accent": "#e4c086",
+    "muted": "#a6bbb0",
+    "digital": "#80ffb0"
+  },
+  "ui": {
+    "title": "字有意思",
+    "subtitle": "把手里的字，变成一句好玩的表达。",
+    "new_game": "开始四人试玩",
+    "seat": "玩家",
+    "confirm": "我已接手 · 查看手牌",
+    "handoff": "请把设备交给下一位玩家",
+    "reload": "重载素材",
+    "editor": "素材管理",
+    "draw": "摸牌",
+    "discard": "出牌",
+    "clear": "清空选择",
+    "approve": "认可",
+    "oppose": "反对",
+    "next_round": "开始下一局",
+    "end_game": "主机结束本局",
+    "skip": "跳过动画",
+    "back": "返回菜单",
+    "search": "按名称或关键词搜索表情包",
+    "no_selection": "依次点击手牌，组成你想说的话",
+    "phase_discard": "句子未通过，请弃一张",
+    "phase_completed": "本局清算完成",
+    "menu_hint": "同一台设备，四人轮流。每次换人先交接，再查看手牌。",
+    "seed": "牌局种子 ",
+    "invalid_deck": "字库必须恰好组成 136 张牌，请在素材工作台检查数量。",
+    "handoff_hint": "上一位玩家的手牌已隐藏。接手后再点击下方按钮。",
+    "tile_unit": " 张",
+    "ready": "四个座位已就绪，由东位主机发牌。",
+    "round": "第",
+    "wall": "牌墙剩余",
+    "active": "当前行动：",
+    "vote_progress": "已收到投票",
+    "accepted": "大家认可的句子",
+    "river": "公开牌河",
+    "footer": "四人字牌 · 点击头像下方交接 · 字牌两张起出句",
+    "no_search_result": "没有找到匹配图片，可换个关键词或在素材工作台新增。",
+    "missing_image": "图片暂不可用，句子仍然有效。请检查素材映射。",
+    "aborted_hint": "主机提前结束了本局。已确认的句子保留，本局不计入累计总分。",
+    "sentence_points": "出句",
+    "meme_points": "评分加分",
+    "penalty": "剩牌扣分",
+    "round_points": "本局总分",
+    "ranking": "累计排名",
+    "end_confirm": "结束本局？已确认句子保留，但未完成的清算不会计入累计分。",
+    "action_rejected": "操作未完成，请检查当前玩家和阶段",
+    "reloaded": "素材已重载；字库修改从下一局发牌开始使用。",
+    "event_TILE_DRAWN": "摸到一张新牌，开始表达吧。",
+    "event_TILE_DISCARDED": "已弃牌，请交接给下一位玩家。",
+    "event_SENTENCE_PROPOSED": "句子已提交，请其他三位玩家投票。",
+    "event_SENTENCE_ACCEPTED": "句子通过，分数已经记入。",
+    "event_SENTENCE_REJECTED": "句子未通过，请出牌者弃一张牌。",
+    "event_FINAL_SCORES": "评分完成，本局已经清算。",
+    "error_NOT_YOUR_TURN": "还没轮到你，请交接给当前行动玩家。",
+    "error_WRONG_PHASE": "当前阶段不能这样操作，请按页面提示继续。",
+    "error_ALREADY_VOTED": "你已经投过票了，请交接给其他玩家。",
+    "error_HOST_REQUIRED": "这项操作需要交接给东位主机。",
+    "error_SELF_VOTE_FORBIDDEN": "不能给自己的句子投票。",
+    "dealer": "庄",
+    "you": "我的座位",
+    "take_seat": "交接到此位",
+    "new_tile": "新摸",
+    "table_hint": "点击选牌 · 拖动上方字序调整句子 · 出句后交给其他玩家评判",
+    "waiting_player": "等待行动：",
+    "meme_remove": "移除",
+    "meme_move_up": "向前移动",
+    "meme_move_down": "向后移动",
+    "meme_limit": "已达到本局图片数量上限",
+    "meme_previous": "上一张",
+    "meme_next": "下一张",
+    "meme_pause": "暂停",
+    "meme_play": "播放",
+    "meme_compose": "表情造句",
+    "reorder_hint": "拖到另一个位置以调整顺序",
+    "motion_full": "动效：开",
+    "motion_reduced": "动效：简化",
+    "collapse": "收起",
+    "ready_title": "入座 · 准备开局",
+    "ready_seat": "已就绪",
+    "decision_title": "这句话，你认可吗？",
+    "rating_title": "给这组表情打个分",
+    "rating_hint": "点击 0–3 分完成提交。评分与刚才的判断一起送出。",
+    "decision_back": "返回修改判断",
+    "ballot_done": "你的投票已提交",
+    "ballot_wait": "等待其他三位玩家投票",
+    "ballot_privacy": "投票期间只显示进度，不公开个人判断和分数。",
+    "error_RATING_REQUIRES_MEME": "未附表情的句子不参与评分。"
+  },
+  "assets": [
+    {
+      "key": "ui.background",
+      "kind": "ui",
+      "path": "assets/ui/table.svg",
+      "title": "牌桌背景",
+      "usage": "对局界面的背景",
+      "size_hint": "1600×1000，SVG 或 PNG",
+      "keywords": [
+        "牌桌",
+        "背景"
+      ],
+      "license": "本项目自制占位图",
+      "notes": "替换图片后点击重载素材。"
+    },
+    {
+      "key": "ui.tile",
+      "kind": "ui",
+      "path": "assets/ui/tile.svg",
+      "title": "汉字牌底",
+      "usage": "手牌按钮底图；汉字由 UI 叠加",
+      "size_hint": "120×160，留出中间文字区域",
+      "keywords": [
+        "牌面"
+      ],
+      "license": "本项目自制占位图",
+      "notes": "不要把具体汉字画进底图。"
+    },
+    {
+      "key": "ui.mark",
+      "kind": "ui",
+      "path": "assets/ui/mark.svg",
+      "title": "游戏标记",
+      "usage": "主菜单和管理页面预览",
+      "size_hint": "128×128，透明背景",
+      "keywords": [
+        "图标"
+      ],
+      "license": "本项目自制占位图",
+      "notes": "可替换为自己的游戏标志。"
+    },
+    {
+      "key": "ui.tile_back",
+      "kind": "ui",
+      "path": "assets/ui/tile_back.svg",
+      "title": "麻将背牌",
+      "usage": "三位对家的隐藏手牌",
+      "size_hint": "60×90",
+      "keywords": [
+        "麻将背牌"
+      ],
+      "license": "本项目自制矢量占位图",
+      "notes": "保留资源 key；可在网页上传图片替换。"
+    },
+    {
+      "key": "ui.avatar_east",
+      "kind": "ui",
+      "path": "assets/ui/avatar_east.svg",
+      "title": "东位头像",
+      "usage": "东位玩家名片",
+      "size_hint": "100×100",
+      "keywords": [
+        "东位头像"
+      ],
+      "license": "本项目自制矢量占位图",
+      "notes": "保留资源 key；可在网页上传图片替换。"
+    },
+    {
+      "key": "ui.avatar_south",
+      "kind": "ui",
+      "path": "assets/ui/avatar_south.svg",
+      "title": "南位头像",
+      "usage": "南位玩家名片",
+      "size_hint": "100×100",
+      "keywords": [
+        "南位头像"
+      ],
+      "license": "本项目自制矢量占位图",
+      "notes": "保留资源 key；可在网页上传图片替换。"
+    },
+    {
+      "key": "ui.avatar_west",
+      "kind": "ui",
+      "path": "assets/ui/avatar_west.svg",
+      "title": "西位头像",
+      "usage": "西位玩家名片",
+      "size_hint": "100×100",
+      "keywords": [
+        "西位头像"
+      ],
+      "license": "本项目自制矢量占位图",
+      "notes": "保留资源 key；可在网页上传图片替换。"
+    },
+    {
+      "key": "ui.avatar_north",
+      "kind": "ui",
+      "path": "assets/ui/avatar_north.svg",
+      "title": "北位头像",
+      "usage": "北位玩家名片",
+      "size_hint": "100×100",
+      "keywords": [
+        "北位头像"
+      ],
+      "license": "本项目自制矢量占位图",
+      "notes": "保留资源 key；可在网页上传图片替换。"
+    },
+    {
+      "key": "meme.gs.001",
+      "kind": "meme",
+      "path": "assets/imported/23d192eeff1d-_____.webp",
+      "title": "绑架，捆绑",
+      "usage": "表情包 · 动图",
+      "size_hint": "anim:42x7@10 · 200x112",
+      "keywords": [
+        "绑架"
+      ],
+      "license": "本地素材 E:\\总素材\\gif素材",
+      "notes": ""
+    },
+    {
+      "key": "meme.gs.002",
+      "kind": "meme",
+      "path": "assets/imported/8bfbf7e7c2c9-________.webp",
+      "title": "保健，甩头，跳舞",
+      "usage": "表情包 · 动图",
+      "size_hint": "anim:68x9@8.33 · 200x112",
+      "keywords": [
+        "保健",
+        "甩头",
+        "跳舞"
+      ],
+      "license": "本地素材 E:\\总素材\\gif素材",
+      "notes": ""
+    },
+    {
+      "key": "meme.gs.003",
+      "kind": "meme",
+      "path": "assets/imported/1d0d7e61beac-_____.webp",
+      "title": "变脸，脸色",
+      "usage": "表情包 · 动图",
+      "size_hint": "anim:33x6@10 · 200x112",
+      "keywords": [
+        "变脸",
+        "脸色"
+      ],
+      "license": "本地素材 E:\\总素材\\gif素材",
+      "notes": ""
+    },
+    {
+      "key": "meme.gs.004",
+      "kind": "meme",
+      "path": "assets/imported/6db623d8f1ac-______.jpg",
+      "title": "憋笑，忍不住",
+      "usage": "表情包",
+      "size_hint": "1080×1079",
+      "keywords": [
+        "憋笑",
+        "忍不住"
+      ],
+      "license": "本地素材 E:\\总素材\\gif素材",
+      "notes": ""
+    },
+    {
+      "key": "meme.gs.005",
+      "kind": "meme",
+      "path": "assets/imported/c63e42ef1e29-__.webp",
+      "title": "憋笑",
+      "usage": "表情包 · 动图",
+      "size_hint": "anim:135x12@23.98 · 200x200",
+      "keywords": [
+        "憋笑"
+      ],
+      "license": "本地素材 E:\\总素材\\gif素材",
+      "notes": ""
+    },
+    {
+      "key": "meme.gs.006",
+      "kind": "meme",
+      "path": "assets/imported/d7dfb7228ea3-______.jpg",
+      "title": "超人强，超人",
+      "usage": "表情包",
+      "size_hint": "720×844",
+      "keywords": [
+        "超人强",
+        "超人"
+      ],
+      "license": "本地素材 E:\\总素材\\gif素材",
+      "notes": ""
+    },
+    {
+      "key": "meme.gs.007",
+      "kind": "meme",
+      "path": "assets/imported/45a423dbf147-_.jpg",
+      "title": "冲",
+      "usage": "表情包",
+      "size_hint": "560×516",
+      "keywords": [
+        "冲"
+      ],
+      "license": "本地素材 E:\\总素材\\gif素材",
+      "notes": ""
+    },
+    {
+      "key": "meme.gs.008",
+      "kind": "meme",
+      "path": "assets/imported/190b51e1e70a-_____.webp",
+      "title": "抽烟，反向",
+      "usage": "表情包 · 动图",
+      "size_hint": "anim:19x5@8.33 · 200x180",
+      "keywords": [
+        "抽烟",
+        "反向"
+      ],
+      "license": "本地素材 E:\\总素材\\gif素材",
+      "notes": ""
+    },
+    {
+      "key": "meme.gs.009",
+      "kind": "meme",
+      "path": "assets/imported/3475af1f3971-_____.webp",
+      "title": "打量，观察",
+      "usage": "表情包 · 动图",
+      "size_hint": "anim:41x7@10 · 200x160",
+      "keywords": [
+        "打量",
+        "眼神"
+      ],
+      "license": "本地素材 E:\\总素材\\gif素材",
+      "notes": ""
+    },
+    {
+      "key": "meme.gs.010",
+      "kind": "meme",
+      "path": "assets/imported/6aa9846b1a0b-_____.webp",
+      "title": "挡路，阻挡",
+      "usage": "表情包 · 动图",
+      "size_hint": "anim:90x10@14.29 · 200x148",
+      "keywords": [
+        "挡路"
+      ],
+      "license": "本地素材 E:\\总素材\\gif素材",
+      "notes": ""
+    },
+    {
+      "key": "meme.gs.012",
+      "kind": "meme",
+      "path": "assets/imported/8f7ea373fcda-_____.webp",
+      "title": "瞪眼，眼神",
+      "usage": "表情包 · 动图",
+      "size_hint": "anim:71x9@14.29 · 200x144",
+      "keywords": [
+        "瞪眼",
+        "眼神"
+      ],
+      "license": "本地素材 E:\\总素材\\gif素材",
+      "notes": ""
+    },
+    {
+      "key": "meme.gs.013",
+      "kind": "meme",
+      "path": "assets/imported/9740cb8e5e3e-________.webp",
+      "title": "愤怒，生气，离场",
+      "usage": "表情包 · 动图",
+      "size_hint": "anim:72x9@25 · 200x200",
+      "keywords": [
+        "生气",
+        "愤怒",
+        "离场"
+      ],
+      "license": "本地素材 E:\\总素材\\gif素材",
+      "notes": ""
+    },
+    {
+      "key": "meme.gs.014",
+      "kind": "meme",
+      "path": "assets/imported/bfc128c9937c-__________.webp",
+      "title": "高兴，开心，手舞足蹈",
+      "usage": "表情包 · 动图",
+      "size_hint": "anim:39x7@8.33 · 200x112",
+      "keywords": [
+        "开心",
+        "高兴",
+        "手舞足蹈",
+        "跳舞"
+      ],
+      "license": "本地素材 E:\\总素材\\gif素材",
+      "notes": ""
+    },
+    {
+      "key": "meme.gs.015",
+      "kind": "meme",
+      "path": "assets/imported/d82f75ad4d06-____.webp",
+      "title": "高兴，笑",
+      "usage": "表情包 · 动图",
+      "size_hint": "anim:14x4@10 · 200x196",
+      "keywords": [
+        "开心",
+        "高兴",
+        "笑",
+        "笑脸"
+      ],
+      "license": "本地素材 E:\\总素材\\gif素材",
+      "notes": ""
+    },
+    {
+      "key": "meme.gs.016",
+      "kind": "meme",
+      "path": "assets/imported/6c8a3985e692-__.jpeg",
+      "title": "关门",
+      "usage": "表情包",
+      "size_hint": "673×539",
+      "keywords": [
+        "关门"
+      ],
+      "license": "本地素材 E:\\总素材\\gif素材",
+      "notes": ""
+    },
+    {
+      "key": "meme.gs.017",
+      "kind": "meme",
+      "path": "assets/imported/ff8a6fbf33d9-___________.jpg",
+      "title": "好伙伴，好朋友，关系好",
+      "usage": "表情包",
+      "size_hint": "960×714",
+      "keywords": [
+        "伙伴",
+        "朋友"
+      ],
+      "license": "本地素材 E:\\总素材\\gif素材",
+      "notes": ""
+    },
+    {
+      "key": "meme.gs.018",
+      "kind": "meme",
+      "path": "assets/imported/8f952047a161-_____.jpeg",
+      "title": "花盆，奖杯",
+      "usage": "表情包",
+      "size_hint": "578×379",
+      "keywords": [
+        "花盆",
+        "奖杯"
+      ],
+      "license": "本地素材 E:\\总素材\\gif素材",
+      "notes": ""
+    },
+    {
+      "key": "meme.gs.019",
+      "kind": "meme",
+      "path": "assets/imported/b2811e71e4ad-_____.webp",
+      "title": "回忆，痛苦",
+      "usage": "表情包 · 动图",
+      "size_hint": "anim:30x6@6.67 · 200x112",
+      "keywords": [
+        "回忆",
+        "痛苦",
+        "笑"
+      ],
+      "license": "本地素材 E:\\总素材\\gif素材",
+      "notes": ""
+    },
+    {
+      "key": "meme.gs.020",
+      "kind": "meme",
+      "path": "assets/imported/902ecfe0daf0-_____.jpg",
+      "title": "金玉，情侣",
+      "usage": "表情包",
+      "size_hint": "1092×852",
+      "keywords": [
+        "金玉",
+        "情侣"
+      ],
+      "license": "本地素材 E:\\总素材\\gif素材",
+      "notes": ""
+    },
+    {
+      "key": "meme.gs.021",
+      "kind": "meme",
+      "path": "assets/imported/e3f3a5762db9-______.webp",
+      "title": "哭泣，二段哭",
+      "usage": "表情包 · 动图",
+      "size_hint": "anim:66x9@8.33 · 200x112",
+      "keywords": [
+        "哭泣",
+        "伤心",
+        "二段哭",
+        "哭脸"
+      ],
+      "license": "本地素材 E:\\总素材\\gif素材",
+      "notes": ""
+    },
+    {
+      "key": "meme.gs.022",
+      "kind": "meme",
+      "path": "assets/imported/ef974b2e9c92-_____.webp",
+      "title": "快乐，开心",
+      "usage": "表情包 · 动图",
+      "size_hint": "anim:37x7@12.5 · 180x148",
+      "keywords": [
+        "开心",
+        "高兴"
+      ],
+      "license": "本地素材 E:\\总素材\\gif素材",
+      "notes": ""
+    },
+    {
+      "key": "meme.gs.023",
+      "kind": "meme",
+      "path": "assets/imported/d3a0cf0123ed-_____.jpeg",
+      "title": "拉扯,打团",
+      "usage": "表情包",
+      "size_hint": "641×552",
+      "keywords": [
+        "拉扯",
+        "打团"
+      ],
+      "license": "本地素材 E:\\总素材\\gif素材",
+      "notes": ""
+    },
+    {
+      "key": "meme.gs.024",
+      "kind": "meme",
+      "path": "assets/imported/0d818b0ac462-_____.webp",
+      "title": "签收，害羞",
+      "usage": "表情包 · 动图",
+      "size_hint": "anim:43x7@20 · 200x200",
+      "keywords": [
+        "签收",
+        "害羞"
+      ],
+      "license": "本地素材 E:\\总素材\\gif素材",
+      "notes": ""
+    },
+    {
+      "key": "meme.gs.025",
+      "kind": "meme",
+      "path": "assets/imported/fafc48cfd8a6-________.webp",
+      "title": "区别，对待，变脸",
+      "usage": "表情包 · 动图",
+      "size_hint": "anim:54x8@10 · 200x144",
+      "keywords": [
+        "区别",
+        "对待",
+        "变脸",
+        "脸色"
+      ],
+      "license": "本地素材 E:\\总素材\\gif素材",
+      "notes": ""
+    },
+    {
+      "key": "meme.gs.026",
+      "kind": "meme",
+      "path": "assets/imported/45f40129e488-_____.jpg",
+      "title": "弱爆，鄙视",
+      "usage": "表情包",
+      "size_hint": "425×368",
+      "keywords": [
+        "弱爆",
+        "鄙视"
+      ],
+      "license": "本地素材 E:\\总素材\\gif素材",
+      "notes": ""
+    },
+    {
+      "key": "meme.gs.027",
+      "kind": "meme",
+      "path": "assets/imported/f2d2e5e5bd99-__.webp",
+      "title": "傻笑",
+      "usage": "表情包 · 动图",
+      "size_hint": "anim:29x6@10 · 152x200",
+      "keywords": [
+        "傻笑",
+        "笑",
+        "开心",
+        "高兴",
+        "笑脸"
+      ],
+      "license": "本地素材 E:\\总素材\\gif素材",
+      "notes": ""
+    },
+    {
+      "key": "meme.gs.028",
+      "kind": "meme",
+      "path": "assets/imported/2e29b47e5dc6-________________.webp",
+      "title": "生气，敲椅子，打暗号，练习，教育",
+      "usage": "表情包 · 动图",
+      "size_hint": "anim:92x10@10 · 200x100",
+      "keywords": [
+        "生气",
+        "愤怒",
+        "敲椅子",
+        "打暗号",
+        "练习",
+        "教育"
+      ],
+      "license": "本地素材 E:\\总素材\\gif素材",
+      "notes": ""
+    },
+    {
+      "key": "meme.gs.029",
+      "kind": "meme",
+      "path": "assets/imported/e0a3eb2b1c68-_____.webp",
+      "title": "跳舞，快乐",
+      "usage": "表情包 · 动图",
+      "size_hint": "anim:122x12@10 · 200x433",
+      "keywords": [
+        "跳舞",
+        "开心",
+        "高兴"
+      ],
+      "license": "本地素材 E:\\总素材\\gif素材",
+      "notes": ""
+    },
+    {
+      "key": "meme.gs.030",
+      "kind": "meme",
+      "path": "assets/imported/72b962058f12-_____________.webp",
+      "title": "吓人，恐怖，惊慌失色，恐慌",
+      "usage": "表情包 · 动图",
+      "size_hint": "anim:27x6@10 · 200x112",
+      "keywords": [
+        "吓人",
+        "恐怖",
+        "吓哭了"
+      ],
+      "license": "本地素材 E:\\总素材\\gif素材",
+      "notes": ""
+    },
+    {
+      "key": "meme.gs.031",
+      "kind": "meme",
+      "path": "assets/imported/9fbca8e0ac7e-_________.webp",
+      "title": "小虎 ，见面，吐舌",
+      "usage": "表情包 · 动图",
+      "size_hint": "anim:32x6@8.33 · 200x112",
+      "keywords": [
+        "小虎",
+        "见面",
+        "吐舌"
+      ],
+      "license": "本地素材 E:\\总素材\\gif素材",
+      "notes": ""
+    },
+    {
+      "key": "meme.gs.032",
+      "kind": "meme",
+      "path": "assets/imported/e52a1a6f294d-_____.webp",
+      "title": "小虎，跳舞",
+      "usage": "表情包 · 动图",
+      "size_hint": "anim:122x12@10 · 200x433",
+      "keywords": [
+        "小虎",
+        "跳舞"
+      ],
+      "license": "本地素材 E:\\总素材\\gif素材",
+      "notes": ""
+    },
+    {
+      "key": "meme.gs.033",
+      "kind": "meme",
+      "path": "assets/imported/ce148708645b-__.webp",
+      "title": "眼神",
+      "usage": "表情包 · 动图",
+      "size_hint": "anim:51x8@10.41 · 200x124",
+      "keywords": [
+        "眼神"
+      ],
+      "license": "本地素材 E:\\总素材\\gif素材",
+      "notes": ""
+    },
+    {
+      "key": "meme.gs.034",
+      "kind": "meme",
+      "path": "assets/imported/29dd80d3ee2c-________.webp",
+      "title": "追逐，失败，天哥",
+      "usage": "表情包 · 动图",
+      "size_hint": "anim:74x9@15.07 · 200x148",
+      "keywords": [
+        "追逐",
+        "失败",
+        "天哥"
+      ],
+      "license": "本地素材 E:\\总素材\\gif素材",
+      "notes": ""
+    },
+    {
+      "key": "meme.gs.035",
+      "kind": "meme",
+      "path": "assets/imported/d6ede471ae49-________.webp",
+      "title": "尊敬，眼色，辈分",
+      "usage": "表情包 · 动图",
+      "size_hint": "anim:53x8@10.02 · 200x188",
+      "keywords": [
+        "尊敬",
+        "眼色",
+        "辈分"
+      ],
+      "license": "本地素材 E:\\总素材\\gif素材",
+      "notes": ""
+    },
+    {
+      "key": "meme.gs.036",
+      "kind": "meme",
+      "path": "assets/imported/0ec0f28f08ae-__.webp",
+      "title": "坐牢",
+      "usage": "表情包 · 动图",
+      "size_hint": "anim:27x6@10 · 200x168",
+      "keywords": [
+        "坐牢"
+      ],
+      "license": "本地素材 E:\\总素材\\gif素材",
+      "notes": ""
+    },
+    {
+      "key": "meme.gs.037",
+      "kind": "meme",
+      "path": "assets/imported/404718ba70e5-__________.webp",
+      "title": "哈登，登哥，兴高采烈",
+      "usage": "表情包 · 动图",
+      "size_hint": "anim:111x11@16.67 · 112x200",
+      "keywords": [
+        "哈登",
+        "登哥",
+        "开心",
+        "高兴"
+      ],
+      "license": "本地素材 E:\\总素材\\gif素材",
+      "notes": ""
+    },
+    {
+      "key": "meme.gs.038",
+      "kind": "meme",
+      "path": "assets/imported/032d477a9c9c-________.webp",
+      "title": "扣篮，幽默，丢脸",
+      "usage": "表情包 · 动图",
+      "size_hint": "anim:97x10@12.85 · 200x104",
+      "keywords": [
+        "扣篮",
+        "搞笑",
+        "幽默",
+        "丢脸",
+        "丢人"
+      ],
+      "license": "本地素材 E:\\总素材\\gif素材",
+      "notes": ""
+    },
+    {
+      "key": "meme.gs.039",
+      "kind": "meme",
+      "path": "assets/imported/7e13aa36a4c2-________.webp",
+      "title": "库里，上篮，摔倒",
+      "usage": "表情包 · 动图",
+      "size_hint": "anim:41x7@10 · 200x112",
+      "keywords": [
+        "库里",
+        "上篮",
+        "摔倒"
+      ],
+      "license": "本地素材 E:\\总素材\\gif素材",
+      "notes": ""
+    },
+    {
+      "key": "meme.gs.040",
+      "kind": "meme",
+      "path": "assets/imported/8445798dc4ac-_____.webp",
+      "title": "库里，投篮",
+      "usage": "表情包 · 动图",
+      "size_hint": "anim:33x6@15.07 · 200x196",
+      "keywords": [
+        "库里",
+        "投篮"
+      ],
+      "license": "本地素材 E:\\总素材\\gif素材",
+      "notes": ""
+    },
+    {
+      "key": "meme.gs.041",
+      "kind": "meme",
+      "path": "assets/imported/d575ffad501a-____.webp",
+      "title": "库里疯狂",
+      "usage": "表情包 · 动图",
+      "size_hint": "anim:125x12@30.05 · 200x200",
+      "keywords": [
+        "库里疯狂"
+      ],
+      "license": "本地素材 E:\\总素材\\gif素材",
+      "notes": ""
+    },
+    {
+      "key": "meme.gs.042",
+      "kind": "meme",
+      "path": "assets/imported/f9ca38d13140-_____.webp",
+      "title": "抢戏，搞笑",
+      "usage": "表情包 · 动图",
+      "size_hint": "anim:21x5@10 · 200x112",
+      "keywords": [
+        "抢戏",
+        "搞笑",
+        "幽默"
+      ],
+      "license": "本地素材 E:\\总素材\\gif素材",
+      "notes": ""
+    },
+    {
+      "key": "meme.gs.043",
+      "kind": "meme",
+      "path": "assets/imported/92c822d3bc4c-__.webp",
+      "title": "戏耍",
+      "usage": "表情包 · 动图",
+      "size_hint": "anim:134x12@19.14 · 200x128",
+      "keywords": [
+        "戏耍"
+      ],
+      "license": "本地素材 E:\\总素材\\gif素材",
+      "notes": ""
+    },
+    {
+      "key": "meme.gs.044",
+      "kind": "meme",
+      "path": "assets/imported/8d7b2f6b6f8a-______.webp",
+      "title": "詹姆斯，抱头",
+      "usage": "表情包 · 动图",
+      "size_hint": "anim:17x5@10 · 112x200",
+      "keywords": [
+        "詹姆斯",
+        "抱头",
+        "皇帝",
+        "詹皇",
+        "老詹"
+      ],
+      "license": "本地素材 E:\\总素材\\gif素材",
+      "notes": ""
+    },
+    {
+      "key": "meme.gs.045",
+      "kind": "meme",
+      "path": "assets/imported/ca63c4fd161c-______.webp",
+      "title": "詹姆斯，打球",
+      "usage": "表情包 · 动图",
+      "size_hint": "anim:12x4@10 · 200x200",
+      "keywords": [
+        "詹姆斯",
+        "打球",
+        "皇帝",
+        "詹皇",
+        "老詹"
+      ],
+      "license": "本地素材 E:\\总素材\\gif素材",
+      "notes": ""
+    },
+    {
+      "key": "meme.gs.046",
+      "kind": "meme",
+      "path": "assets/imported/0a391e55ea51-_________.webp",
+      "title": "詹姆斯，高兴，开心",
+      "usage": "表情包 · 动图",
+      "size_hint": "anim:76x9@16.67 · 200x104",
+      "keywords": [
+        "詹姆斯",
+        "开心",
+        "高兴",
+        "皇帝",
+        "詹皇",
+        "老詹",
+        "笑脸"
+      ],
+      "license": "本地素材 E:\\总素材\\gif素材",
+      "notes": ""
+    },
+    {
+      "key": "meme.gs.047",
+      "kind": "meme",
+      "path": "assets/imported/6a87eff33efd-______.webp",
+      "title": "詹姆斯，假摔",
+      "usage": "表情包 · 动图",
+      "size_hint": "anim:40x7@10 · 200x176",
+      "keywords": [
+        "詹姆斯",
+        "假摔",
+        "皇帝",
+        "詹皇",
+        "老詹"
+      ],
+      "license": "本地素材 E:\\总素材\\gif素材",
+      "notes": ""
+    },
+    {
+      "key": "meme.gs.048",
+      "kind": "meme",
+      "path": "assets/imported/64c3dc10bf03-___________________.webp",
+      "title": "詹姆斯，决定，天赋，不可思议，你知道的",
+      "usage": "表情包 · 动图",
+      "size_hint": "anim:51x8@10 · 200x112",
+      "keywords": [
+        "詹姆斯",
+        "决定",
+        "天赋",
+        "不可思议",
+        "你知道的",
+        "皇帝",
+        "詹皇",
+        "老詹"
+      ],
+      "license": "本地素材 E:\\总素材\\gif素材",
+      "notes": ""
+    },
+    {
+      "key": "meme.gs.049",
+      "kind": "meme",
+      "path": "assets/imported/8069bfede4e9-______________.webp",
+      "title": "詹姆斯，开心，兴高采烈，高兴",
+      "usage": "表情包 · 动图",
+      "size_hint": "anim:21x5@20 · 200x112",
+      "keywords": [
+        "詹姆斯",
+        "开心",
+        "高兴",
+        "皇帝",
+        "詹皇",
+        "老詹"
+      ],
+      "license": "本地素材 E:\\总素材\\gif素材",
+      "notes": ""
+    },
+    {
+      "key": "meme.gs.050",
+      "kind": "meme",
+      "path": "assets/imported/901892bafcdb-____________.webp",
+      "title": "詹姆斯，狂野，皇帝，皇冠",
+      "usage": "表情包 · 动图",
+      "size_hint": "anim:8x3@10 · 200x128",
+      "keywords": [
+        "詹姆斯",
+        "狂野",
+        "皇帝",
+        "皇冠",
+        "詹皇",
+        "老詹"
+      ],
+      "license": "本地素材 E:\\总素材\\gif素材",
+      "notes": ""
+    },
+    {
+      "key": "meme.gs.051",
+      "kind": "meme",
+      "path": "assets/imported/12f6b321d594-_________.webp",
+      "title": "詹姆斯，狂野，假摔",
+      "usage": "表情包 · 动图",
+      "size_hint": "anim:68x9@10 · 200x152",
+      "keywords": [
+        "詹姆斯",
+        "狂野",
+        "假摔",
+        "皇帝",
+        "詹皇",
+        "老詹"
+      ],
+      "license": "本地素材 E:\\总素材\\gif素材",
+      "notes": ""
+    },
+    {
+      "key": "meme.gs.052",
+      "kind": "meme",
+      "path": "assets/imported/5986a5e5cb63-_________.webp",
+      "title": "詹姆斯，狂野，扣篮",
+      "usage": "表情包 · 动图",
+      "size_hint": "anim:12x4@10 · 200x108",
+      "keywords": [
+        "詹姆斯",
+        "狂野",
+        "扣篮",
+        "皇帝",
+        "詹皇",
+        "老詹"
+      ],
+      "license": "本地素材 E:\\总素材\\gif素材",
+      "notes": ""
+    },
+    {
+      "key": "meme.gs.053",
+      "kind": "meme",
+      "path": "assets/imported/193f28efbddd-_________.webp",
+      "title": "詹姆斯，狂野，生气",
+      "usage": "表情包 · 动图",
+      "size_hint": "anim:27x6@10 · 200x200",
+      "keywords": [
+        "詹姆斯",
+        "狂野",
+        "生气",
+        "愤怒",
+        "皇帝",
+        "詹皇",
+        "老詹"
+      ],
+      "license": "本地素材 E:\\总素材\\gif素材",
+      "notes": ""
+    },
+    {
+      "key": "meme.gs.054",
+      "kind": "meme",
+      "path": "assets/imported/0973cadbcab0-_________.webp",
+      "title": "詹姆斯，山羊，皇冠",
+      "usage": "表情包 · 动图",
+      "size_hint": "anim:73x9@10 · 112x200",
+      "keywords": [
+        "詹姆斯",
+        "山羊",
+        "皇冠",
+        "皇帝",
+        "詹皇",
+        "老詹",
+        "GOAT"
+      ],
+      "license": "本地素材 E:\\总素材\\gif素材",
+      "notes": ""
+    },
+    {
+      "key": "meme.gs.055",
+      "kind": "meme",
+      "path": "assets/imported/c5562c79765b-____________.webp",
+      "title": "詹姆斯，耍赖，赖皮，走步",
+      "usage": "表情包 · 动图",
+      "size_hint": "anim:36x6@10 · 200x116",
+      "keywords": [
+        "詹姆斯",
+        "耍赖",
+        "走步",
+        "皇帝",
+        "詹皇",
+        "老詹"
+      ],
+      "license": "本地素材 E:\\总素材\\gif素材",
+      "notes": ""
+    },
+    {
+      "key": "meme.gs.056",
+      "kind": "meme",
+      "path": "assets/imported/a065ded10363-______.png",
+      "title": "詹姆斯，瘫倒",
+      "usage": "表情包",
+      "size_hint": "220×202",
+      "keywords": [
+        "詹姆斯",
+        "瘫倒",
+        "皇帝",
+        "詹皇",
+        "老詹"
+      ],
+      "license": "本地素材 E:\\总素材\\gif素材",
+      "notes": ""
+    },
+    {
+      "key": "meme.gs.057",
+      "kind": "meme",
+      "path": "assets/imported/bfa2e1aea561-_________.webp",
+      "title": "詹姆斯，无奈，摇头",
+      "usage": "表情包 · 动图",
+      "size_hint": "anim:81x9@10 · 200x108",
+      "keywords": [
+        "詹姆斯",
+        "无奈",
+        "摇头",
+        "皇帝",
+        "詹皇",
+        "老詹"
+      ],
+      "license": "本地素材 E:\\总素材\\gif素材",
+      "notes": ""
+    },
+    {
+      "key": "meme.gs.058",
+      "kind": "meme",
+      "path": "assets/imported/71bf7b3920f5-_____.webp",
+      "title": "詹姆斯，笑",
+      "usage": "表情包 · 动图",
+      "size_hint": "anim:77x9@14.98 · 160x200",
+      "keywords": [
+        "詹姆斯",
+        "笑",
+        "皇帝",
+        "詹皇",
+        "老詹",
+        "笑脸"
+      ],
+      "license": "本地素材 E:\\总素材\\gif素材",
+      "notes": ""
+    },
+    {
+      "key": "meme.gs.059",
+      "kind": "meme",
+      "path": "assets/imported/51391916ba1d-_____.webp",
+      "title": "走步，耍赖",
+      "usage": "表情包 · 动图",
+      "size_hint": "anim:100x10@20 · 200x108",
+      "keywords": [
+        "走步",
+        "耍赖"
+      ],
+      "license": "本地素材 E:\\总素材\\gif素材",
+      "notes": ""
+    },
+    {
+      "key": "meme.gs.060",
+      "kind": "meme",
+      "path": "assets/imported/849334c5f5da-_____.webp",
+      "title": "作弊，耍赖",
+      "usage": "表情包 · 动图",
+      "size_hint": "anim:150x13@14.29 · 200x112",
+      "keywords": [
+        "作弊",
+        "耍赖"
+      ],
+      "license": "本地素材 E:\\总素材\\gif素材",
+      "notes": ""
+    },
+    {
+      "key": "meme.gs.061",
+      "kind": "meme",
+      "path": "assets/imported/368bcac2b469-__.jpg",
+      "title": "吃饭",
+      "usage": "表情包",
+      "size_hint": "1072×604",
+      "keywords": [
+        "吃饭"
+      ],
+      "license": "本地素材 E:\\总素材\\gif素材",
+      "notes": ""
+    },
+    {
+      "key": "meme.gs.062",
+      "kind": "meme",
+      "path": "assets/imported/f9062306c341-_____.webp",
+      "title": "打击，欺负",
+      "usage": "表情包 · 动图",
+      "size_hint": "anim:76x9@19.49 · 184x188",
+      "keywords": [
+        "打击",
+        "欺负"
+      ],
+      "license": "本地素材 E:\\总素材\\gif素材",
+      "notes": ""
+    },
+    {
+      "key": "meme.gs.063",
+      "kind": "meme",
+      "path": "assets/imported/d65f181d0f3d-_____.webp",
+      "title": "丢脸，丢人",
+      "usage": "表情包 · 动图",
+      "size_hint": "anim:97x10@12.85 · 200x104",
+      "keywords": [
+        "丢脸",
+        "丢人"
+      ],
+      "license": "本地素材 E:\\总素材\\gif素材",
+      "notes": ""
+    },
+    {
+      "key": "meme.gs.064",
+      "kind": "meme",
+      "path": "assets/imported/795c93edf0ba-__.jpg",
+      "title": "喝水",
+      "usage": "表情包",
+      "size_hint": "1426×810",
+      "keywords": [
+        "喝水"
+      ],
+      "license": "本地素材 E:\\总素材\\gif素材",
+      "notes": ""
+    },
+    {
+      "key": "meme.gs.065",
+      "kind": "meme",
+      "path": "assets/imported/e14dfca8f9a2-______.jpg",
+      "title": "僵尸，不是人",
+      "usage": "表情包",
+      "size_hint": "484×852",
+      "keywords": [
+        "僵尸",
+        "不是人"
+      ],
+      "license": "本地素材 E:\\总素材\\gif素材",
+      "notes": ""
+    },
+    {
+      "key": "meme.gs.066",
+      "kind": "meme",
+      "path": "assets/imported/b4488b9f3197-_____.jpg",
+      "title": "开心，高兴",
+      "usage": "表情包",
+      "size_hint": "368×368",
+      "keywords": [
+        "开心",
+        "高兴",
+        "笑脸"
+      ],
+      "license": "本地素材 E:\\总素材\\gif素材",
+      "notes": ""
+    },
+    {
+      "key": "meme.gs.067",
+      "kind": "meme",
+      "path": "assets/imported/ef3d140f9723-________.webp",
+      "title": "哭泣，伤心，演戏",
+      "usage": "表情包 · 动图",
+      "size_hint": "anim:66x9@8.33 · 200x112",
+      "keywords": [
+        "哭泣",
+        "伤心",
+        "演戏",
+        "哭脸"
+      ],
+      "license": "本地素材 E:\\总素材\\gif素材",
+      "notes": ""
+    },
+    {
+      "key": "meme.gs.068",
+      "kind": "meme",
+      "path": "assets/imported/7235480fbefd-_____.jpg",
+      "title": "摔倒，滑倒",
+      "usage": "表情包",
+      "size_hint": "1076×590",
+      "keywords": [
+        "摔倒",
+        "滑倒"
+      ],
+      "license": "本地素材 E:\\总素材\\gif素材",
+      "notes": ""
+    },
+    {
+      "key": "meme.gs.069",
+      "kind": "meme",
+      "path": "assets/imported/3a93d38d07de-_____.webp",
+      "title": "掏裆，遛鸟",
+      "usage": "表情包 · 动图",
+      "size_hint": "anim:156x13@24 · 200x112",
+      "keywords": [
+        "掏裆",
+        "遛鸟"
+      ],
+      "license": "本地素材 E:\\总素材\\gif素材",
+      "notes": ""
+    },
+    {
+      "key": "meme.gs.070",
+      "kind": "meme",
+      "path": "assets/imported/3b1a39ec5067-_____.webp",
+      "title": "威胁，吓人",
+      "usage": "表情包 · 动图",
+      "size_hint": "anim:31x6@10 · 200x112",
+      "keywords": [
+        "威胁",
+        "吓人"
+      ],
+      "license": "本地素材 E:\\总素材\\gif素材",
+      "notes": ""
+    },
+    {
+      "key": "meme.gs.071",
+      "kind": "meme",
+      "path": "assets/imported/a3cc0d122262-______.webp",
+      "title": "无奈，气笑了",
+      "usage": "表情包 · 动图",
+      "size_hint": "anim:31x6@10 · 200x176",
+      "keywords": [
+        "无奈",
+        "气笑了",
+        "气笑"
+      ],
+      "license": "本地素材 E:\\总素材\\gif素材",
+      "notes": ""
+    },
+    {
+      "key": "meme.gs.072",
+      "kind": "meme",
+      "path": "assets/imported/3a2783e86a3d-__.webp",
+      "title": "戏耍",
+      "usage": "表情包 · 动图",
+      "size_hint": "anim:31x6@10 · 200x92",
+      "keywords": [
+        "戏耍"
+      ],
+      "license": "本地素材 E:\\总素材\\gif素材",
+      "notes": ""
+    },
+    {
+      "key": "meme.gs.073",
+      "kind": "meme",
+      "path": "assets/imported/63869abe9830-_____.webp",
+      "title": "陷害，害人",
+      "usage": "表情包 · 动图",
+      "size_hint": "anim:29x6@10 · 200x92",
+      "keywords": [
+        "陷害",
+        "害人"
+      ],
+      "license": "本地素材 E:\\总素材\\gif素材",
+      "notes": ""
+    },
+    {
+      "key": "meme.gs.074",
+      "kind": "meme",
+      "path": "assets/imported/62516a84b561-_____.webp",
+      "title": "相遇，害羞",
+      "usage": "表情包 · 动图",
+      "size_hint": "anim:91x10@14.82 · 164x200",
+      "keywords": [
+        "相遇",
+        "害羞"
+      ],
+      "license": "本地素材 E:\\总素材\\gif素材",
+      "notes": ""
+    },
+    {
+      "key": "meme.gs.075",
+      "kind": "meme",
+      "path": "assets/imported/2da17d4ce1d0-_______.webp",
+      "title": "想到点子，想法",
+      "usage": "表情包 · 动图",
+      "size_hint": "anim:64x8@25.4 · 200x120",
+      "keywords": [
+        "点子",
+        "想法"
+      ],
+      "license": "本地素材 E:\\总素材\\gif素材",
+      "notes": ""
+    }
+  ],
+  "deck": [
+    {
+      "glyph": "我",
+      "copies": 4
+    },
+    {
+      "glyph": "你",
+      "copies": 4
+    },
+    {
+      "glyph": "他",
+      "copies": 4
+    },
+    {
+      "glyph": "是",
+      "copies": 4
+    },
+    {
+      "glyph": "的",
+      "copies": 4
+    },
+    {
+      "glyph": "了",
+      "copies": 4
+    },
+    {
+      "glyph": "不",
+      "copies": 4
+    },
+    {
+      "glyph": "在",
+      "copies": 4
+    },
+    {
+      "glyph": "有",
+      "copies": 4
+    },
+    {
+      "glyph": "人",
+      "copies": 4
+    },
+    {
+      "glyph": "好",
+      "copies": 4
+    },
+    {
+      "glyph": "大",
+      "copies": 4
+    },
+    {
+      "glyph": "小",
+      "copies": 4
+    },
+    {
+      "glyph": "天",
+      "copies": 4
+    },
+    {
+      "glyph": "地",
+      "copies": 4
+    },
+    {
+      "glyph": "山",
+      "copies": 4
+    },
+    {
+      "glyph": "水",
+      "copies": 4
+    },
+    {
+      "glyph": "风",
+      "copies": 4
+    },
+    {
+      "glyph": "雨",
+      "copies": 4
+    },
+    {
+      "glyph": "花",
+      "copies": 4
+    },
+    {
+      "glyph": "月",
+      "copies": 4
+    },
+    {
+      "glyph": "日",
+      "copies": 4
+    },
+    {
+      "glyph": "心",
+      "copies": 4
+    },
+    {
+      "glyph": "爱",
+      "copies": 4
+    },
+    {
+      "glyph": "想",
+      "copies": 4
+    },
+    {
+      "glyph": "笑",
+      "copies": 4
+    },
+    {
+      "glyph": "看",
+      "copies": 4
+    },
+    {
+      "glyph": "来",
+      "copies": 4
+    },
+    {
+      "glyph": "去",
+      "copies": 4
+    },
+    {
+      "glyph": "吃",
+      "copies": 4
+    },
+    {
+      "glyph": "喝",
+      "copies": 4
+    },
+    {
+      "glyph": "玩",
+      "copies": 4
+    },
+    {
+      "glyph": "今",
+      "copies": 4
+    },
+    {
+      "glyph": "梦",
+      "copies": 4
+    }
+  ],
+  "playback": {
+    "seconds_per_image": 2
+  },
+  "deck_presets": [
+    {
+      "id": "nba.words",
+      "title": "NBA",
+      "deck": [
+        {
+          "glyph": "丢",
+          "copies": 2
+        },
+        {
+          "glyph": "脸",
+          "copies": 2
+        },
+        {
+          "glyph": "人",
+          "copies": 2
+        },
+        {
+          "glyph": "僵",
+          "copies": 2
+        },
+        {
+          "glyph": "尸",
+          "copies": 2
+        },
+        {
+          "glyph": "不",
+          "copies": 2
+        },
+        {
+          "glyph": "是",
+          "copies": 2
+        },
+        {
+          "glyph": "吃",
+          "copies": 2
+        },
+        {
+          "glyph": "饭",
+          "copies": 2
+        },
+        {
+          "glyph": "哭",
+          "copies": 2
+        },
+        {
+          "glyph": "伤",
+          "copies": 2
+        },
+        {
+          "glyph": "心",
+          "copies": 2
+        },
+        {
+          "glyph": "演",
+          "copies": 2
+        },
+        {
+          "glyph": "戏",
+          "copies": 2
+        },
+        {
+          "glyph": "喝",
+          "copies": 2
+        },
+        {
+          "glyph": "水",
+          "copies": 2
+        },
+        {
+          "glyph": "吓",
+          "copies": 2
+        },
+        {
+          "glyph": "开",
+          "copies": 2
+        },
+        {
+          "glyph": "高",
+          "copies": 2
+        },
+        {
+          "glyph": "兴",
+          "copies": 2
+        },
+        {
+          "glyph": "点",
+          "copies": 2
+        },
+        {
+          "glyph": "子",
+          "copies": 2
+        },
+        {
+          "glyph": "耍",
+          "copies": 2
+        },
+        {
+          "glyph": "打",
+          "copies": 2
+        },
+        {
+          "glyph": "欺",
+          "copies": 2
+        },
+        {
+          "glyph": "负",
+          "copies": 2
+        },
+        {
+          "glyph": "掏",
+          "copies": 2
+        },
+        {
+          "glyph": "裆",
+          "copies": 2
+        },
+        {
+          "glyph": "摔",
+          "copies": 2
+        },
+        {
+          "glyph": "倒",
+          "copies": 2
+        },
+        {
+          "glyph": "无",
+          "copies": 2
+        },
+        {
+          "glyph": "奈",
+          "copies": 2
+        },
+        {
+          "glyph": "笑",
+          "copies": 2
+        },
+        {
+          "glyph": "了",
+          "copies": 2
+        },
+        {
+          "glyph": "害",
+          "copies": 2
+        },
+        {
+          "glyph": "羞",
+          "copies": 2
+        },
+        {
+          "glyph": "赖",
+          "copies": 2
+        },
+        {
+          "glyph": "哈",
+          "copies": 2
+        },
+        {
+          "glyph": "登",
+          "copies": 2
+        },
+        {
+          "glyph": "库",
+          "copies": 2
+        },
+        {
+          "glyph": "里",
+          "copies": 2
+        },
+        {
+          "glyph": "疯",
+          "copies": 2
+        },
+        {
+          "glyph": "狂",
+          "copies": 2
+        },
+        {
+          "glyph": "上",
+          "copies": 2
+        },
+        {
+          "glyph": "篮",
+          "copies": 2
+        },
+        {
+          "glyph": "投",
+          "copies": 2
+        },
+        {
+          "glyph": "扣",
+          "copies": 2
+        },
+        {
+          "glyph": "幽",
+          "copies": 2
+        },
+        {
+          "glyph": "默",
+          "copies": 2
+        },
+        {
+          "glyph": "抢",
+          "copies": 2
+        },
+        {
+          "glyph": "搞",
+          "copies": 2
+        },
+        {
+          "glyph": "詹",
+          "copies": 2
+        },
+        {
+          "glyph": "姆",
+          "copies": 2
+        },
+        {
+          "glyph": "斯",
+          "copies": 2
+        },
+        {
+          "glyph": "假",
+          "copies": 2
+        },
+        {
+          "glyph": "你",
+          "copies": 2
+        },
+        {
+          "glyph": "知",
+          "copies": 2
+        },
+        {
+          "glyph": "道",
+          "copies": 2
+        },
+        {
+          "glyph": "的",
+          "copies": 2
+        },
+        {
+          "glyph": "山",
+          "copies": 2
+        },
+        {
+          "glyph": "羊",
+          "copies": 2
+        },
+        {
+          "glyph": "皇",
+          "copies": 2
+        },
+        {
+          "glyph": "冠",
+          "copies": 2
+        },
+        {
+          "glyph": "球",
+          "copies": 2
+        },
+        {
+          "glyph": "野",
+          "copies": 2
+        },
+        {
+          "glyph": "帝",
+          "copies": 2
+        },
+        {
+          "glyph": "走",
+          "copies": 2
+        },
+        {
+          "glyph": "步",
+          "copies": 2
+        }
+      ]
+    },
+    {
+      "id": "lol.words",
+      "title": "英雄联盟",
+      "deck": [
+        {
+          "glyph": "丢",
+          "copies": 2
+        },
+        {
+          "glyph": "脸",
+          "copies": 2
+        },
+        {
+          "glyph": "僵",
+          "copies": 2
+        },
+        {
+          "glyph": "尸",
+          "copies": 2
+        },
+        {
+          "glyph": "不",
+          "copies": 2
+        },
+        {
+          "glyph": "是",
+          "copies": 2
+        },
+        {
+          "glyph": "人",
+          "copies": 2
+        },
+        {
+          "glyph": "吃",
+          "copies": 2
+        },
+        {
+          "glyph": "饭",
+          "copies": 2
+        },
+        {
+          "glyph": "哭",
+          "copies": 2
+        },
+        {
+          "glyph": "伤",
+          "copies": 2
+        },
+        {
+          "glyph": "心",
+          "copies": 2
+        },
+        {
+          "glyph": "戏",
+          "copies": 2
+        },
+        {
+          "glyph": "喝",
+          "copies": 2
+        },
+        {
+          "glyph": "水",
+          "copies": 2
+        },
+        {
+          "glyph": "吓",
+          "copies": 2
+        },
+        {
+          "glyph": "开",
+          "copies": 2
+        },
+        {
+          "glyph": "高",
+          "copies": 2
+        },
+        {
+          "glyph": "兴",
+          "copies": 2
+        },
+        {
+          "glyph": "想",
+          "copies": 2
+        },
+        {
+          "glyph": "法",
+          "copies": 2
+        },
+        {
+          "glyph": "耍",
+          "copies": 2
+        },
+        {
+          "glyph": "打",
+          "copies": 2
+        },
+        {
+          "glyph": "击",
+          "copies": 2
+        },
+        {
+          "glyph": "掏",
+          "copies": 2
+        },
+        {
+          "glyph": "裆",
+          "copies": 2
+        },
+        {
+          "glyph": "摔",
+          "copies": 2
+        },
+        {
+          "glyph": "倒",
+          "copies": 2
+        },
+        {
+          "glyph": "气",
+          "copies": 2
+        },
+        {
+          "glyph": "笑",
+          "copies": 2
+        },
+        {
+          "glyph": "了",
+          "copies": 2
+        },
+        {
+          "glyph": "害",
+          "copies": 2
+        },
+        {
+          "glyph": "羞",
+          "copies": 2
+        },
+        {
+          "glyph": "跳",
+          "copies": 2
+        },
+        {
+          "glyph": "舞",
+          "copies": 2
+        },
+        {
+          "glyph": "关",
+          "copies": 2
+        },
+        {
+          "glyph": "门",
+          "copies": 2
+        },
+        {
+          "glyph": "冲",
+          "copies": 2
+        },
+        {
+          "glyph": "变",
+          "copies": 2
+        },
+        {
+          "glyph": "色",
+          "copies": 2
+        },
+        {
+          "glyph": "坐",
+          "copies": 2
+        },
+        {
+          "glyph": "牢",
+          "copies": 2
+        },
+        {
+          "glyph": "伙",
+          "copies": 2
+        },
+        {
+          "glyph": "伴",
+          "copies": 2
+        },
+        {
+          "glyph": "眼",
+          "copies": 2
+        },
+        {
+          "glyph": "小",
+          "copies": 2
+        },
+        {
+          "glyph": "虎",
+          "copies": 2
+        },
+        {
+          "glyph": "鄙",
+          "copies": 2
+        },
+        {
+          "glyph": "视",
+          "copies": 2
+        },
+        {
+          "glyph": "憋",
+          "copies": 2
+        },
+        {
+          "glyph": "量",
+          "copies": 2
+        },
+        {
+          "glyph": "抽",
+          "copies": 2
+        },
+        {
+          "glyph": "烟",
+          "copies": 2
+        },
+        {
+          "glyph": "团",
+          "copies": 2
+        },
+        {
+          "glyph": "挡",
+          "copies": 2
+        },
+        {
+          "glyph": "路",
+          "copies": 2
+        },
+        {
+          "glyph": "神",
+          "copies": 2
+        },
+        {
+          "glyph": "绑",
+          "copies": 2
+        },
+        {
+          "glyph": "架",
+          "copies": 2
+        },
+        {
+          "glyph": "奖",
+          "copies": 2
+        },
+        {
+          "glyph": "杯",
+          "copies": 2
+        },
+        {
+          "glyph": "超",
+          "copies": 2
+        },
+        {
+          "glyph": "强",
+          "copies": 2
+        },
+        {
+          "glyph": "天",
+          "copies": 2
+        },
+        {
+          "glyph": "哥",
+          "copies": 2
+        },
+        {
+          "glyph": "情",
+          "copies": 2
+        },
+        {
+          "glyph": "侣",
+          "copies": 2
+        },
+        {
+          "glyph": "生",
+          "copies": 2
+        }
+      ]
+    }
+  ],
+  "font": {
+    "families": [
+      "Microsoft YaHei",
+      "Noto Sans CJK SC",
+      "Arial"
+    ],
+    "size": 18,
+    "roles": {
+      "options": "",
+      "vote": "",
+      "score": "",
+      "tile": "KaiTi"
+    }
+  }
+}

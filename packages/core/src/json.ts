@@ -1,0 +1,39 @@
+/** JSON boundary shared by the trusted core entry points. */
+export type Json = null | boolean | number | string | Json[] | {[key: string]: Json};
+export function object(value: unknown): value is Record<string, unknown> {
+  if (value === null || typeof value !== 'object' || Array.isArray(value)) return false;
+  const proto = Object.getPrototypeOf(value);
+  return proto === Object.prototype || proto === null;
+}
+export function json(value: unknown, depth = 0): value is Json {
+  if (depth > 32) return false;
+  if (value === null || typeof value === 'boolean' || typeof value === 'string') return true;
+  if (typeof value === 'number') return Number.isFinite(value) && Math.abs(value) <= Number.MAX_SAFE_INTEGER;
+  if (Array.isArray(value)) return Object.keys(value).length === value.length && Reflect.ownKeys(value).length === value.length + 1 &&
+    Array.from({length:value.length},(_,i)=>Object.hasOwn(value,i) && json(value[i],depth+1)).every(Boolean);
+  if (!object(value) || Reflect.ownKeys(value).length !== Object.keys(value).length) return false;
+  return Object.keys(value).every(k => !['__proto__', 'prototype', 'constructor'].includes(k) &&
+    !('get' in Object.getOwnPropertyDescriptor(value, k)!) && json(value[k], depth + 1));
+}
+export function integer(value: unknown): value is number { return typeof value === 'number' && Number.isSafeInteger(value); }
+export function identifier(value: unknown): value is string {
+  return typeof value === 'string' && Array.from(value).length > 0 && Array.from(value).length <= 128;
+}
+export function onlyKeys(value: Record<string, unknown>, keys: readonly string[]): boolean {
+  return Object.keys(value).every(k => keys.includes(k));
+}
+export function copy<T>(value: T): T {
+  if (Array.isArray(value)) return value.map(x => copy(x)) as T;
+  if (object(value)) {
+    const result = Object.create(Object.getPrototypeOf(value)) as Record<string, unknown>;
+    for (const key of Object.keys(value)) Object.defineProperty(result, key, {value:copy(value[key]),writable:true,enumerable:true,configurable:true});
+    return result as T;
+  }
+  return value;
+}
+export function canonical(value: Json): string {
+  if (Array.isArray(value)) return `[${value.map(canonical).join(',')}]`;
+  if (object(value)) return `{${Object.keys(value).sort().map(k => `${JSON.stringify(k)}:${canonical(value[k] as Json)}`).join(',')}}`;
+  return JSON.stringify(value);
+}
+export function dictionary<T>(): Record<string, T> { return Object.create(null) as Record<string, T>; }

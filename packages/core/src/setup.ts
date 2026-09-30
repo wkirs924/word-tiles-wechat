@@ -1,0 +1,41 @@
+/** Compatibility setup helper. Server production randomness is a separate adapter. */
+export interface Tile { id: string; glyph: string; syllable_key?: string; base_tone?: number }
+export interface DeckEntry { glyph: string; copies: number }
+export function expandDeck(entries: readonly DeckEntry[]): Tile[] {
+  const tiles: Tile[] = [];
+  for (const entry of entries) {
+    if (typeof entry.glyph !== 'string' || Array.from(entry.glyph).length !== 1 ||
+        !Number.isSafeInteger(entry.copies) || entry.copies < 0 || entry.copies > 136) {
+      throw new RangeError('INVALID_DECK_ENTRY');
+    }
+    for (let i = 0; i < entry.copies; i++) {
+      tiles.push({id: `tile_${String(tiles.length).padStart(3, '0')}`, glyph: entry.glyph});
+    }
+  }
+  if (tiles.length !== 136) throw new RangeError('INVALID_TILE_COUNT');
+  return tiles;
+}
+export function seededSetup(tiles: readonly Tile[], seed: number, dealerReferenceSeat = 0) {
+  if (tiles.length !== 136 || new Set(tiles.map(x => x.id)).size !== tiles.length) throw new RangeError('INVALID_TILES');
+  for (const tile of tiles) {
+    if (typeof tile.id !== 'string' || !tile.id || Array.from(tile.id).length > 128 ||
+        typeof tile.glyph !== 'string' || Array.from(tile.glyph).length !== 1) throw new RangeError('INVALID_TILE');
+  }
+  if (!Number.isSafeInteger(seed) || seed < 1 || seed > 2147483646) throw new RangeError('INVALID_SEED');
+  if (!Number.isSafeInteger(dealerReferenceSeat) || dealerReferenceSeat < 0 || dealerReferenceSeat > 3) throw new RangeError('INVALID_DEALER');
+  const wall = tiles.map(x => x.id);
+  let rng = seed;
+  for (let i = wall.length - 1; i > 0; i--) {
+    // Product < 2^53, so JavaScript Number preserves this exact integer arithmetic.
+    rng = (rng * 16807) % 2147483647;
+    const other = rng % (i + 1);
+    [wall[i], wall[other]] = [wall[other], wall[i]];
+  }
+  const dice: number[] = [];
+  for (let i = 0; i < 2; i++) {
+    rng = (rng * 16807) % 2147483647;
+    dice.push(rng % 6 + 1);
+  }
+  return {wall, dice, dealer_seat: (dealerReferenceSeat + dice[0] + dice[1] - 1) % 4,
+    algorithm: 'park-miller-fisher-yates-v1' as const, seed};
+}

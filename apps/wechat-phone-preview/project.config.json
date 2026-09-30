@@ -1,0 +1,20 @@
+{
+  "appid": "wxba06c0039312091a",
+  "compileType": "game",
+  "libVersion": "3.17.3",
+  "projectname": "word-tiles-wechat-phone-preview",
+  "setting": {
+    "es6": true,
+    "minified": true,
+    "urlCheck": false
+  },
+  "packOptions": {
+    "ignore": [
+      {
+        "type": "file",
+        "value": "README.md"
+      }
+    ],
+    "include": []
+  }
+}

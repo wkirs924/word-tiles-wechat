@@ -1,0 +1,26 @@
+{
+  "deviceOrientation": "landscape",
+  "showStatusBar": false,
+  "subpackages": [
+    {
+      "name": "animations-01",
+      "root": "packs/animations-01/"
+    },
+    {
+      "name": "animations-02",
+      "root": "packs/animations-02/"
+    },
+    {
+      "name": "animations-03",
+      "root": "packs/animations-03/"
+    },
+    {
+      "name": "animations-04",
+      "root": "packs/animations-04/"
+    },
+    {
+      "name": "animations-05",
+      "root": "packs/animations-05/"
+    }
+  ]
+}

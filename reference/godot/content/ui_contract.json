@@ -1,0 +1,6 @@
+{
+  "required_ui_assets": [
+    "ui.background", "ui.tile", "ui.mark", "ui.tile_back",
+    "ui.avatar_east", "ui.avatar_south", "ui.avatar_west", "ui.avatar_north"
+  ]
+}
