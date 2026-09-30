@@ -50,6 +50,10 @@ powershell -ExecutionPolicy Bypass -File scripts/server.ps1
 
 原项目只读路径：`C:\Users\cyr\Documents\Codex\2026-09-18\1-2-2-3-4-1\outputs\word_tiles_m3_m4`。
 
+## GitHub Pages 网页副本
+
+本仓库配置 GitHub Actions 自动测试、生成网页副本并发布到 GitHub Pages，设置步骤见 [网页发布说明](docs/PUBLIC_WEB.md)。网页支持同一设备四人轮流试玩；跨设备联机需要另配后端。用户选择公开本仓库，因此整个源码和历史也会公开；Pages 部署产物仅包含网页运行文件。
+
 ## 测试
 
 在项目根目录执行：

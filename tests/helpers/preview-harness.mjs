@@ -2,8 +2,8 @@ import {readFileSync} from 'node:fs';
 import {resolve} from 'node:path';
 import vm from 'node:vm';
 
-export function previewHarness({native = false, phone = false, sourcePath} = {}) {
-  const root = resolve(import.meta.dirname, '../../apps', phone ? 'wechat-phone-preview' : 'wechat-preview');
+export function previewHarness({native = false, phone = false, sourcePath, sourceDirectory, search = '?frame=compose'} = {}) {
+  const root = sourceDirectory || resolve(import.meta.dirname, '../../apps', phone ? 'wechat-phone-preview' : 'wechat-preview');
   const handlers = {}, images = [], packages = [], timers = new Map(), rafs = new Map(), draws = [], labels = [];
   let serial = 0, now = 1000, transforms = 0, rankCalls = 0;
   const context = new Proxy({
@@ -25,7 +25,7 @@ export function previewHarness({native = false, phone = false, sourcePath} = {})
     clearTimeout: id => timers.delete(id),
     document: {hidden: false, getElementById: () => canvas, addEventListener: (name, fn) => { handlers[name] = fn; }},
     window: {innerWidth: 1280, innerHeight: 720, devicePixelRatio: 1,
-      location: {search: '?frame=compose'}, addEventListener: (name, fn) => { handlers[name] = fn; }}
+      location: {search}, addEventListener: (name, fn) => { handlers[name] = fn; }}
   };
   if (native) sandbox.wx = {
     createCanvas: () => canvas, createImage: () => new MockImage(),
@@ -48,7 +48,11 @@ export function previewHarness({native = false, phone = false, sourcePath} = {})
       const callbacks = [...rafs.values()]; rafs.clear(); callbacks.forEach(fn => fn(now));
     }
   }
-  function tap(x, y) { handlers.touch({touches: [{clientX: x, clientY: y}]}); flush(); }
+  function tap(x, y) {
+    if (native) handlers.touch({touches: [{clientX: x, clientY: y}]});
+    else handlers.pointerdown({clientX: x, clientY: y});
+    flush();
+  }
   function fire(delay) {
     const entry = [...timers.entries()].find(([, timer]) => timer.delay === delay);
     if (!entry) return false;
