@@ -59,13 +59,22 @@ test('browser click loops the meme atlas and switching cards keeps one active at
   h.flush();
   const first = h.draws.filter(args => args.length === 9).at(-1);
   assert.ok(first, 'the selected card draws a cropped animation frame');
-  h.advance(meta.frame_ms);
+  h.advance(Math.max(20, meta.frame_ms) + 1); // Cross the frame boundary despite float rounding.
   h.fire(Math.min(50, Math.max(20, meta.frame_ms / 2)));
   const next = h.draws.filter(args => args.length === 9).at(-1);
   assert.notDeepEqual(next.slice(1, 3), first.slice(1, 3), 'the loop advances to another source frame');
-  const other = cell[0] === 302 ? [977, 304] : [302, 304];
-  h.handlers.pointerdown({clientX: other[0], clientY: other[1]});
-  h.flush();
+  // Ranking depends on randomly dealt tiles; another fixed cell can be a still image.
+  // Click until a DIFFERENT animated card actually becomes active before switching back.
+  let switched = false;
+  for (let i = 0; i < 6 && !switched; i++) {
+    const other = [302 + (i % 3) * 337, 304 + Math.floor(i / 3) * 180];
+    if (other[0] === cell[0] && other[1] === cell[1]) continue;
+    h.handlers.pointerdown({clientX: other[0], clientY: other[1]});
+    h.flush();
+    const latest = h.images.filter(image => image.path.includes('/animations/')).at(-1);
+    switched = latest && latest.path !== animated.path;
+  }
+  assert.ok(switched, 'a distinct animated card becomes active');
   h.handlers.pointerdown({clientX: cell[0], clientY: cell[1]});
   h.flush();
   assert.equal(h.images.filter(image => image.path === animated.path).length, 2, 'switching cards reloads exactly one active atlas');
@@ -88,7 +97,7 @@ test('WeChat tapping a meme starts a looping atlas and still selects it', () => 
   h.flush();
   const first = h.draws.filter(args => args.length === 9).at(-1);
   assert.ok(first, 'the tapped card plays an animation frame');
-  h.advance(meta.frame_ms);
+  h.advance(Math.max(20, meta.frame_ms) + 1);
   h.fire(Math.min(50, Math.max(20, meta.frame_ms / 2)));
   const next = h.draws.filter(args => args.length === 9).at(-1);
   assert.notDeepEqual(next.slice(1, 3), first.slice(1, 3), 'the loop keeps advancing after the finger lifts');
